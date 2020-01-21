@@ -78,4 +78,14 @@ public class OrderController implements PaginationUtility {
         return modelAndView;
     }
 
+    @GetMapping("/all-orders")
+    public ModelAndView allOrders(@RequestParam Integer currentPage, @RequestParam Integer recordsPerPage) {
+        paginationValidate(currentPage, recordsPerPage);
+
+        List<Order> orders = orderService.findAll(PageRequest.of(currentPage - 1, recordsPerPage));
+
+        return paginate(currentPage, recordsPerPage, "all-orders", orderService.numberOfEntries(), orders);
+    }
+
+
 }

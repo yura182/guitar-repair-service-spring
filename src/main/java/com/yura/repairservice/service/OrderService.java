@@ -19,11 +19,15 @@ public interface OrderService {
 
     List<Order> findByStatus(Status status, Pageable pageable);
 
+    List<Order> findAll(Pageable pageable);
+
     long numberOfEntriesByMasterId(Integer masterId);
 
     long numberOfEntriesByClientId(Integer clientID);
 
     long numberOfEntriesByStatus(Status status);
+
+    long numberOfEntries();
 
     void acceptOrder(Order order);
 

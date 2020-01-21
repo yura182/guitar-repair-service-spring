@@ -65,6 +65,15 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<Order> findAll(Pageable pageable) {
+        return orderRepository
+                .findAll(pageable)
+                .stream()
+                .map(orderMapper::mapOrderEntityToOrder)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public long numberOfEntriesByMasterId(Integer masterId) {
         return orderRepository.countByMasterId(masterId);
     }
@@ -77,6 +86,11 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public long numberOfEntriesByStatus(Status status) {
         return orderRepository.countByStatus(status);
+    }
+
+    @Override
+    public long numberOfEntries() {
+        return orderRepository.count();
     }
 
     @Override
