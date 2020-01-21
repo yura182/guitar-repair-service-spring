@@ -52,6 +52,9 @@
                 <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
                     <a class="nav-link js-scroll-trigger" th:href="@{/all-users(currentPage=1, recordsPerPage=4)}" th:text="#{menu.all.users}"></a>
                 </li>
+                <li class="nav-item" sec:authorize="hasAuthority('CLIENT')">
+                    <a class="nav-link js-scroll-trigger" th:href="@{/user-orders(currentPage=1, recordsPerPage=4)}" th:text="#{menu.user.orders}"></a>
+                </li>
                 <li class="nav-item" sec:authorize="isAuthenticated()">
                     <a class="nav-link js-scroll-trigger" th:href="@{/logout}" th:text="#{menu.logout}"></a>
                 </li>
@@ -79,7 +82,7 @@
         <div class="intro-text">
             <div class="intro-lead-in" th:text="#{main.body.welcome}"></div>
             <div class="intro-heading text-uppercase" th:text="#{main.body.since}">GUITAR SPECIALISTS SINCE 1995</div>
-            <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" href="#services" th:text="#{main.body.make}">Make an order</a>
+            <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" th:href="@{/order}" th:text="#{main.body.make}">Make an order</a>
         </div>
     </div>
 </header>

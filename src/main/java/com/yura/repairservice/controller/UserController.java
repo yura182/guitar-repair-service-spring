@@ -56,11 +56,9 @@ public class UserController implements PaginationUtility {
                                  @RequestParam(name = "passwordConfirmation") String passwordConfirmation) {
         ModelAndView modelAndView = new ModelAndView();
 
-
         if (bindingResult.hasErrors()) {
             modelAndView.addObject("registerError", true);
             modelAndView.setViewName("register");
-            System.out.println(user);
         } else if (!Objects.equals(user.getPassword(), passwordConfirmation)) {
             modelAndView.addObject("confirmationError", true);
             modelAndView.setViewName("register");

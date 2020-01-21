@@ -14,7 +14,6 @@ public class InstrumentMapper {
                 .brand(instrumentEntity.getBrand())
                 .model(instrumentEntity.getModel())
                 .manufactureYear(String.valueOf(instrumentEntity.getManufactureYear()))
-                .condition(instrumentEntity.getCondition())
                 .build();
     }
 
@@ -24,7 +23,6 @@ public class InstrumentMapper {
                 .brand(instrument.getBrand())
                 .model(instrument.getModel())
                 .manufactureYear(Integer.parseInt(instrument.getManufactureYear()))
-                .condition(instrument.getCondition())
                 .build();
     }
 }

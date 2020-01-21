@@ -31,7 +31,7 @@ public class OrderEntity {
     @JoinColumn(name = "client_id", nullable = false)
     private UserEntity client;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JoinColumn(name = "instrument_id", nullable = false)
     private InstrumentEntity instrument;
 

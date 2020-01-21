@@ -1163,6 +1163,14 @@ iframe {
   background-color: rgba(33, 37, 41, 0.4);
 }
 
+textarea.input100 {
+  padding-top: 20px;
+}
+
+.btn-primary {
+  color: #212529;
+}
+
 
 
 /*//////////////////////////////////////////////////////////////////

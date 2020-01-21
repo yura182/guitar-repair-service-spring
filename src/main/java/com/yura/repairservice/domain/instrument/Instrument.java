@@ -24,7 +24,4 @@ public class Instrument {
 
     @Pattern(regexp = "[0-9]{4}", message = "Please enter valid year")
     private String manufactureYear;
-
-    @NotNull(message = "Please enter condition of your instrument")
-    private Condition condition;
 }
