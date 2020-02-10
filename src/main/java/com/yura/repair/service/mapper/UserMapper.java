@@ -6,30 +6,31 @@ import org.springframework.stereotype.Component;
 
 import java.util.Objects;
 
-
 @Component
-public class UserMapper {
-    public UserDto mapUserEntityToUser(UserEntity userEntity) {
-        return Objects.isNull(userEntity) ? null : UserDto.builder()
-                .id(userEntity.getId())
-                .name(userEntity.getName())
-                .surname(userEntity.getSurname())
-                .email(userEntity.getEmail())
-                .password(userEntity.getPassword())
-                .phone(userEntity.getPhone())
-                .role(userEntity.getRole())
+public class UserMapper implements EntityMapper<UserEntity, UserDto> {
+    @Override
+    public UserDto mapEntityToDto(UserEntity entity) {
+        return Objects.isNull(entity) ? null : UserDto.builder()
+                .id(entity.getId())
+                .name(entity.getName())
+                .surname(entity.getSurname())
+                .email(entity.getEmail())
+                .password(entity.getPassword())
+                .phone(entity.getPhone())
+                .role(entity.getRole())
                 .build();
     }
 
-    public UserEntity mapUserToUserEntity(UserDto userDto) {
-        return Objects.isNull(userDto) ? null : UserEntity.builder()
-                .id(userDto.getId())
-                .name(userDto.getName())
-                .surname(userDto.getSurname())
-                .email(userDto.getEmail())
-                .password(userDto.getPassword())
-                .phone(userDto.getPhone())
-                .role(userDto.getRole())
+    @Override
+    public UserEntity mapDtoToEntity(UserDto dto) {
+        return Objects.isNull(dto) ? null : UserEntity.builder()
+                .id(dto.getId())
+                .name(dto.getName())
+                .surname(dto.getSurname())
+                .email(dto.getEmail())
+                .password(dto.getPassword())
+                .phone(dto.getPhone())
+                .role(dto.getRole())
                 .build();
     }
 }

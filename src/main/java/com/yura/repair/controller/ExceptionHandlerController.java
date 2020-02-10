@@ -12,9 +12,8 @@ public class ExceptionHandlerController {
     @ExceptionHandler({AlreadyRegisteredUserException.class})
     public ModelAndView handleAlreadyRegistered() {
         ModelAndView modelAndView = new ModelAndView("register");
-        modelAndView.addObject("registerError", true);
-        modelAndView.addObject("alreadyRegistered", true);
-        modelAndView.addObject("user", new UserDto());
+        modelAndView.addObject("errorMessage", "register.error.already.registered");
+        modelAndView.addObject("userDto", new UserDto());
 
         return modelAndView;
     }

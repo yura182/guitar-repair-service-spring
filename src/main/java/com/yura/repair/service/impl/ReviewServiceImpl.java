@@ -22,7 +22,7 @@ public class ReviewServiceImpl implements ReviewService {
 
     @Override
     public void add(ReviewDto reviewDto) {
-        reviewRepository.save(reviewMapper.mapCommentToCommentEntity(reviewDto));
+        reviewRepository.save(reviewMapper.mapDtoToEntity(reviewDto));
     }
 
     @Override
@@ -30,7 +30,7 @@ public class ReviewServiceImpl implements ReviewService {
         return reviewRepository
                 .findAll(pageable)
                 .stream()
-                .map(reviewMapper::mapCommentEntityToComment)
+                .map(reviewMapper::mapEntityToDto)
                 .collect(Collectors.toList());
     }
 
@@ -39,7 +39,7 @@ public class ReviewServiceImpl implements ReviewService {
         return reviewRepository
                 .findAllByOrderId(orderId, pageable)
                 .stream()
-                .map(reviewMapper::mapCommentEntityToComment)
+                .map(reviewMapper::mapEntityToDto)
                 .collect(Collectors.toList());
     }
 

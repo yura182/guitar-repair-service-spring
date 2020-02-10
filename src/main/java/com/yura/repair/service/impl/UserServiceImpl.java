@@ -16,8 +16,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Log4j
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -36,21 +34,21 @@ public class UserServiceImpl implements UserService {
         });
 
         userDto.setPassword(encoder.encode(userDto.getPassword()));
-        userRepository.save(userMapper.mapUserToUserEntity(userDto));
+        userRepository.save(userMapper.mapDtoToEntity(userDto));
     }
 
     @Override
     public Page<UserDto> findAll(Pageable pageable) {
         return userRepository
                 .findAll(pageable)
-                .map(userMapper::mapUserEntityToUser);
+                .map(userMapper::mapEntityToDto);
     }
 
     @Override
     public UserDetails loadUserByUsername(String email) {
         return userRepository
                 .findByEmail(email)
-                .map(userMapper::mapUserEntityToUser)
+                .map(userMapper::mapEntityToDto)
                 .orElseThrow(() -> new EntityNotFoundException("User not found with provided email " + email));
     }
 

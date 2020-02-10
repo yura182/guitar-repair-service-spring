@@ -19,12 +19,6 @@ public interface OrderRepository extends JpaRepository<OrderEntity, Integer> {
 
     Page<OrderEntity> findAllByStatus(Status status, Pageable pageable);
 
-    Long countByMasterId(Integer id);
-
-    Long countByClientId(Integer id);
-
-    Long countByStatus(Status status);
-
     @Modifying
     @Transactional
     @Query("UPDATE OrderEntity e SET e.status = :status WHERE e.id = :id")

@@ -1,13 +1,13 @@
 package com.yura.repair.repository;
 
-import com.yura.repair.entity.CommentEntity;
+import com.yura.repair.entity.ReviewEntity;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface ReviewRepository extends JpaRepository<CommentEntity, Integer> {
+public interface ReviewRepository extends JpaRepository<ReviewEntity, Integer> {
 
-    Page<CommentEntity> findAllByOrderId(Integer id, Pageable pageable);
+    Page<ReviewEntity> findAllByOrderId(Integer id, Pageable pageable);
 
     long countByOrderId(Integer id);
 }

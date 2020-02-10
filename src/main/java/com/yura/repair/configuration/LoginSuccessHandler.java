@@ -19,26 +19,11 @@ public class LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
 
     @Override
     protected void handle(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException {
-        final String targetUrl = determineTargetUrl(authentication);
-
         if (response.isCommitted()) {
             return;
         }
 
         RedirectStrategy redirectStrategy = new DefaultRedirectStrategy();
-        redirectStrategy.sendRedirect(request, response, targetUrl);
-    }
-
-    private String determineTargetUrl(Authentication authentication) {
-        Collection<? extends GrantedAuthority> authorities = authentication.getAuthorities();
-        List<String> roles = new ArrayList<>();
-
-        authorities.forEach(authority->roles.add(authority.getAuthority()));
-
-        if (roles.contains("ADMIN")) {
-            return "/";
-        } else {
-            return "/";
-        }
+        redirectStrategy.sendRedirect(request, response, "/");
     }
 }

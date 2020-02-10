@@ -18,8 +18,6 @@ public class InstrumentServiceImpl implements InstrumentService {
 
     @Override
     public void add(InstrumentDto instrumentDto) {
-        instrumentRepository.save(instrumentMapper.mapInstrumentToInstrumentEntity(instrumentDto));
+        instrumentRepository.save(instrumentMapper.mapDtoToEntity(instrumentDto));
     }
-
-
 }

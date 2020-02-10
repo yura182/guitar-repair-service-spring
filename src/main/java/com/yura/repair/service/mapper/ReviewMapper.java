@@ -1,7 +1,7 @@
 package com.yura.repair.service.mapper;
 
 import com.yura.repair.dto.ReviewDto;
-import com.yura.repair.entity.CommentEntity;
+import com.yura.repair.entity.ReviewEntity;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -10,25 +10,27 @@ import java.util.Objects;
 
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 @Component
-public class ReviewMapper {
+public class ReviewMapper implements EntityMapper<ReviewEntity, ReviewDto> {
     private final UserMapper userMapper;
     private final OrderMapper orderMapper;
 
-    public ReviewDto mapCommentEntityToComment(CommentEntity commentEntity) {
-        return Objects.isNull(commentEntity) ? null : ReviewDto.builder()
-                .id(commentEntity.getId())
-                .client(userMapper.mapUserEntityToUser(commentEntity.getClient()))
-                .orderDto(orderMapper.mapOrderEntityToOrder(commentEntity.getOrder()))
-                .text(commentEntity.getText())
+    @Override
+    public ReviewDto mapEntityToDto(ReviewEntity entity) {
+        return Objects.isNull(entity) ? null : ReviewDto.builder()
+                .id(entity.getId())
+                .client(userMapper.mapEntityToDto(entity.getClient()))
+                .orderDto(orderMapper.mapEntityToDto(entity.getOrder()))
+                .text(entity.getText())
                 .build();
     }
 
-    public CommentEntity mapCommentToCommentEntity(ReviewDto reviewDto) {
-        return Objects.isNull(reviewDto) ? null : CommentEntity.builder()
-                .id(reviewDto.getId())
-                .client(userMapper.mapUserToUserEntity(reviewDto.getClient()))
-                .order(orderMapper.mapOrderToOrderEntity(reviewDto.getOrderDto()))
-                .text(reviewDto.getText())
+    @Override
+    public ReviewEntity mapDtoToEntity(ReviewDto dto) {
+        return Objects.isNull(dto) ? null : ReviewEntity.builder()
+                .id(dto.getId())
+                .client(userMapper.mapDtoToEntity(dto.getClient()))
+                .order(orderMapper.mapDtoToEntity(dto.getOrderDto()))
+                .text(dto.getText())
                 .build();
     }
 }

@@ -29,8 +29,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/", "/login", "/register").permitAll()
-                .antMatchers( "/all-users").hasAuthority("ADMIN")
-                .antMatchers("/client/**").hasAuthority("CLIENT").anyRequest()
+                .antMatchers( "/users").hasAuthority("ADMIN")
+                .antMatchers("/add-order", "/my-orders").hasAuthority("CLIENT").anyRequest()
                 .authenticated().and().csrf().disable().formLogin()
                 .loginPage("/login").failureUrl("/login-error").successHandler(loginSuccessHandler).permitAll()
                 .usernameParameter("email")

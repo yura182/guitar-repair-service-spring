@@ -3,6 +3,7 @@ package com.yura.repair.service;
 import com.yura.repair.dto.OrderDto;
 import com.yura.repair.entity.Status;
 import com.yura.repair.dto.UserDto;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 
 import java.util.List;
@@ -13,21 +14,13 @@ public interface OrderService {
 
     OrderDto findById(Integer id);
 
-    List<OrderDto> findByMaster(Integer masterId, Pageable pageable);
+    Page<OrderDto> findByMaster(Integer masterId, Pageable pageable);
 
-    List<OrderDto> findByClient(Integer clientId, Pageable pageable);
+    Page<OrderDto> findByClient(Integer clientId, Pageable pageable);
 
-    List<OrderDto> findByStatus(Status status, Pageable pageable);
+    Page<OrderDto> findByStatus(Status status, Pageable pageable);
 
-    List<OrderDto> findAll(Pageable pageable);
-
-    long numberOfEntriesByMasterId(Integer masterId);
-
-    long numberOfEntriesByClientId(Integer clientID);
-
-    long numberOfEntriesByStatus(Status status);
-
-    long numberOfEntries();
+    Page<OrderDto> findAll(Pageable pageable);
 
     void acceptOrder(OrderDto orderDto);
 

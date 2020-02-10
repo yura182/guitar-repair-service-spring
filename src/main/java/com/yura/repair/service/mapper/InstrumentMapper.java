@@ -7,22 +7,24 @@ import org.springframework.stereotype.Component;
 import java.util.Objects;
 
 @Component
-public class InstrumentMapper {
-    public InstrumentDto mapInstrumentEntityToInstrument(InstrumentEntity instrumentEntity) {
-        return Objects.isNull(instrumentEntity) ? null : InstrumentDto.builder()
-                .id(instrumentEntity.getId())
-                .brand(instrumentEntity.getBrand())
-                .model(instrumentEntity.getModel())
-                .manufactureYear(String.valueOf(instrumentEntity.getManufactureYear()))
+public class InstrumentMapper implements EntityMapper<InstrumentEntity, InstrumentDto> {
+    @Override
+    public InstrumentDto mapEntityToDto(InstrumentEntity entity) {
+        return Objects.isNull(entity) ? null : InstrumentDto.builder()
+                .id(entity.getId())
+                .brand(entity.getBrand())
+                .model(entity.getModel())
+                .manufactureYear(String.valueOf(entity.getManufactureYear()))
                 .build();
     }
 
-    public InstrumentEntity mapInstrumentToInstrumentEntity(InstrumentDto instrumentDto) {
-        return Objects.isNull(instrumentDto) ? null : InstrumentEntity.builder()
-                .id(instrumentDto.getId())
-                .brand(instrumentDto.getBrand())
-                .model(instrumentDto.getModel())
-                .manufactureYear(Integer.parseInt(instrumentDto.getManufactureYear()))
+    @Override
+    public InstrumentEntity mapDtoToEntity(InstrumentDto dto) {
+        return Objects.isNull(dto) ? null : InstrumentEntity.builder()
+                .id(dto.getId())
+                .brand(dto.getBrand())
+                .model(dto.getModel())
+                .manufactureYear(Integer.parseInt(dto.getManufactureYear()))
                 .build();
     }
 }

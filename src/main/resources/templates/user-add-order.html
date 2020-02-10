@@ -37,43 +37,43 @@
             <div class="col-lg-12 text-center">
                 <h2 class="section-heading text-uppercase" th:text="#{order.title.body}"></h2>
                 <h3 class="section-subheading text-muted" th:text="#{order.body.subtitle}"></h3>
-                <p th:if="${orderError}" class="text-danger" th:text="#{order.error}"></p>
-                <p th:if="${success}" class="text-success" th:text="#{order.success}"></p>
+                <p th:if="${errorMessage != null}" class="text-danger" th:text="#{${errorMessage}}"></p>
+                <p th:if="${successMessage != null}" class="text-success" th:text="#{order.success}"></p>
             </div>
         </div>
         <div class="row text-center">
             <div class="limiter">
                 <div class="container-login100">
                     <div class="wrap-login100 p-t-50 p-b-90">
-                        <form class="login100-form validate-form flex-sb flex-w"  th:action="@{/order}" method="post">
+                        <form class="login100-form validate-form flex-sb flex-w"  th:action="@{/add-order}" method="post">
 
                             <div class="wrap-input100 validate-input m-b-16" data-validate = "Brand is required">
-                                <input class="input100" type="text" th:filed="*{instrument.brand}"  name="brand"
+                                <input class="input100" type="text" th:filed="*{instrumentDto.brand}"  name="brand"
                                        th:placeholder="#{order.field.brand}" required th:title="#{order.brand.error}">
                                 <span class="focus-input100"></span>
-                                <label class="text-danger-form" th:if="${#fields.hasErrors('instrument.brand')}" th:errors="*{instrument.brand}"></label>
+                                <label class="text-danger-form" th:if="${#fields.hasErrors('instrumentDto.brand')}" th:errors="*{instrumentDto.brand}"></label>
                             </div>
 
                             <div class="wrap-input100 validate-input m-b-16" data-validate = "Model is required">
-                                <input class="input100" type="text" th:filed="*{instrument.model}"  name="model"
+                                <input class="input100" type="text" th:filed="*{instrumentDto.model}"  name="model"
                                        th:placeholder="#{order.field.model}" required th:title="#{order.model.error}">
                                 <span class="focus-input100"></span>
-                                <label class="text-danger-form" th:if="${#fields.hasErrors('instrument.model')}" th:errors="*{instrument.model}"></label>
+                                <label class="text-danger-form" th:if="${#fields.hasErrors('instrumentDto.model')}" th:errors="*{instrumentDto.model}"></label>
                             </div>
 
                             <div class="wrap-input100 validate-input m-b-16" data-validate = "Manufacture year is required">
-                                <input class="input100" type="text" th:filed="*{instrument.manufactureYear}"  name="manufactureYear"
+                                <input class="input100" type="text" th:filed="*{instrumentDto.manufactureYear}"  name="manufactureYear"
                                        th:placeholder="#{order.field.manufactureYear}" th:title="#{order.manufactureYear.error}">
                                 <span class="focus-input100"></span>
-                                <label class="text-danger-form" th:if="${#fields.hasErrors('instrument.manufactureYear')}" th:errors="*{instrument.manufactureYear}"></label>
+                                <label class="text-danger-form" th:if="${#fields.hasErrors('instrumentDto.manufactureYear')}" th:errors="*{instrumentDto.manufactureYear}"></label>
                             </div>
 
 
                             <div class="wrap-input100 validate-input m-b-16" data-validate = "Service is required">
-                                <textarea  class="input100" type="text" th:filed="*{order.service}"  name="service"
+                                <textarea  class="input100" type="text" th:filed="*{orderDto.service}"  name="service"
                                        th:placeholder="#{order.field.service}" required th:title="#{order.service.error}"></textarea>
                                 <span class="focus-input100"></span>
-                                <label class="text-danger-form" th:if="${#fields.hasErrors('order.service')}" th:errors="*{order.service}"></label>
+                                <label class="text-danger-form" th:if="${#fields.hasErrors('orderDto.service')}" th:errors="*{orderDto.service}"></label>
                             </div>
 
 

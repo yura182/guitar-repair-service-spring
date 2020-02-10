@@ -1,23 +1,19 @@
 package com.yura.repair.service.impl;
 
 import com.yura.repair.dto.OrderDto;
-import com.yura.repair.entity.Status;
 import com.yura.repair.dto.UserDto;
-import com.yura.repair.entity.OrderEntity;
+import com.yura.repair.entity.Status;
 import com.yura.repair.repository.OrderRepository;
 import com.yura.repair.service.OrderService;
 import com.yura.repair.service.mapper.OrderMapper;
 import lombok.AllArgsConstructor;
-import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityNotFoundException;
-import java.util.List;
-import java.util.stream.Collectors;
 
-@Log4j
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -26,71 +22,43 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void add(OrderDto orderDto) {
-        orderRepository.save(orderMapper.mapOrderToOrderEntity(orderDto));
+        orderRepository.save(orderMapper.mapDtoToEntity(orderDto));
     }
 
     @Override
     public OrderDto findById(Integer id) {
         return orderRepository
                 .findById(id)
-                .map(orderMapper::mapOrderEntityToOrder)
+                .map(orderMapper::mapEntityToDto)
                 .orElseThrow(() -> new EntityNotFoundException("Order not found"));
     }
 
     @Override
-    public List<OrderDto> findByMaster(Integer masterId, Pageable pageable) {
+    public Page<OrderDto> findByMaster(Integer masterId, Pageable pageable) {
         return orderRepository
                 .findAllByMasterId(masterId, pageable)
-                .stream()
-                .map(orderMapper::mapOrderEntityToOrder)
-                .collect(Collectors.toList());
+                .map(orderMapper::mapEntityToDto);
     }
 
     @Override
-    public List<OrderDto> findByClient(Integer clientId, Pageable pageable) {
+    public Page<OrderDto> findByClient(Integer clientId, Pageable pageable) {
         return orderRepository
                 .findAllByClientId(clientId, pageable)
-                .stream()
-                .map(orderMapper::mapOrderEntityToOrder)
-                .collect(Collectors.toList());
+                .map(orderMapper::mapEntityToDto);
     }
 
     @Override
-    public List<OrderDto> findByStatus(Status status, Pageable pageable) {
+    public Page<OrderDto> findByStatus(Status status, Pageable pageable) {
         return orderRepository
                 .findAllByStatus(status, pageable)
-                .stream()
-                .map(orderMapper::mapOrderEntityToOrder)
-                .collect(Collectors.toList());
+                .map(orderMapper::mapEntityToDto);
     }
 
     @Override
-    public List<OrderDto> findAll(Pageable pageable) {
+    public Page<OrderDto> findAll(Pageable pageable) {
         return orderRepository
                 .findAll(pageable)
-                .stream()
-                .map(orderMapper::mapOrderEntityToOrder)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public long numberOfEntriesByMasterId(Integer masterId) {
-        return orderRepository.countByMasterId(masterId);
-    }
-
-    @Override
-    public long numberOfEntriesByClientId(Integer clientId) {
-        return orderRepository.countByClientId(clientId);
-    }
-
-    @Override
-    public long numberOfEntriesByStatus(Status status) {
-        return orderRepository.countByStatus(status);
-    }
-
-    @Override
-    public long numberOfEntries() {
-        return orderRepository.count();
+                .map(orderMapper::mapEntityToDto);
     }
 
     @Override
@@ -105,8 +73,8 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public void processOrder(OrderDto orderDto, UserDto master) {
-        OrderEntity orderEntity = orderMapper.mapOrderToOrderEntity(orderDto, master);
-        orderRepository.updateOrderMaster(orderEntity.getId(), orderEntity.getMaster(), Status.PROCESSING);
+//        OrderEntity orderEntity = orderMapper.mapDtoToEntity(orderDto, master); TODO
+//        orderRepository.updateOrderMaster(orderEntity.getId(), orderEntity.getMaster(), Status.PROCESSING);
     }
 
     @Override

@@ -20,13 +20,13 @@
                     <a class="nav-link js-scroll-trigger" th:href="@{/register}" th:text="#{menu.register}"></a>
                 </li>
                 <li class="nav-item" sec:authorize="hasAuthority('CLIENT')">
-                    <a class="nav-link js-scroll-trigger" th:href="@{/order}" th:text="#{menu.order}"></a>
+                    <a class="nav-link js-scroll-trigger" th:href="@{/add-order}" th:text="#{menu.order}"></a>
                 </li>
                 <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
-                    <a class="nav-link js-scroll-trigger" th:href="@{/all-users(page=0, size=4)}" th:text="#{menu.all.users}"></a>
+                    <a class="nav-link js-scroll-trigger" th:href="@{/users(page=0, size=5)}" th:text="#{menu.all.users}"></a>
                 </li>
                 <li class="nav-item" sec:authorize="hasAuthority('CLIENT')">
-                    <a class="nav-link js-scroll-trigger" th:href="@{/user-orders(page=0, size=4)}" th:text="#{menu.user.orders}"></a>
+                    <a class="nav-link js-scroll-trigger" th:href="@{/user-orders(page=0, size=5)}" th:text="#{menu.user.orders}"></a>
                 </li>
             </ul>
 
