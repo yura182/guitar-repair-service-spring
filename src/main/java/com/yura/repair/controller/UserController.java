@@ -142,8 +142,10 @@ public class UserController implements PaginationUtility {
         UserDto userDto = (UserDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Page<OrderDto> orders = orderService.findByClient(userDto.getId(), pageable);
 
-        return paginate(currentPage, recordsPerPage, "user-orders",
-                orderService.numberOfEntriesByClientId(userDto.getId()), orders);
+        ModelAndView modelAndView = new ModelAndView("user-orders");
+        modelAndView.addObject("page", orders);
+
+        return modelAndView;
     }
 
     @PostMapping("/user-order-details")
