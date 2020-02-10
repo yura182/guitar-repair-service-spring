@@ -63,8 +63,7 @@
 
                             <div class="wrap-input100 validate-input m-b-16" data-validate = "Manufacture year is required">
                                 <input class="input100" type="text" th:filed="*{instrument.manufactureYear}"  name="manufactureYear"
-                                       pattern="[0-9]{4}"
-                                       th:placeholder="#{order.field.manufactureYear}" required th:title="#{order.manufactureYear.error}">
+                                       th:placeholder="#{order.field.manufactureYear}" th:title="#{order.manufactureYear.error}">
                                 <span class="focus-input100"></span>
                                 <label class="text-danger-form" th:if="${#fields.hasErrors('instrument.manufactureYear')}" th:errors="*{instrument.manufactureYear}"></label>
                             </div>

@@ -55,9 +55,6 @@
                 <li class="nav-item" sec:authorize="hasAuthority('CLIENT')">
                     <a class="nav-link js-scroll-trigger" th:href="@{/user-orders(currentPage=1, recordsPerPage=4)}" th:text="#{menu.user.orders}"></a>
                 </li>
-                <li class="nav-item" sec:authorize="isAuthenticated()">
-                    <a class="nav-link js-scroll-trigger" th:href="@{/logout}" th:text="#{menu.logout}"></a>
-                </li>
             </ul>
 
             <ul class="navbar-nav text-uppercase ml-auto">
@@ -70,6 +67,9 @@
                 </li>
                 <li class="nav-item nav-lang" sec:authorize="isAuthenticated()">
                     <a class="nav-link js-scroll-trigger small-name-link" th:href="@{/profile}" th:text="${#authentication.name}"></a>
+                </li>
+                <li class="nav-item nav-lang" sec:authorize="isAuthenticated()">
+                    <a class="nav-link js-scroll-trigger small-name-link" th:href="@{/logout}" th:text="#{menu.logout}"></a>
                 </li>
             </ul>
         </div>

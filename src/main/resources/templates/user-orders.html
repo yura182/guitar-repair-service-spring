@@ -49,12 +49,13 @@
                     <th><span class="profile-header" ></span></th>
                     </thead>
                     <tbody>
+
                     <tr th:each="order: ${entities}">
                         <td th:text="${order.getId()}"></td>
                         <td th:text="${#temporals.format(order.getDateTime(), 'dd MMMM yyyy, HH:mm')}"></td>
                         <td th:text="${order.getInstrument().getBrand()}"></td>
                         <td th:text="${order.getService()}"></td>
-                        <td th:text="${order.getStatus().toString()}"></td>
+                        <td th:text="${order.getStatus().getLocaleDescrption()}"></td>
                         <td>
                             <form method="post" th:action="@{/order-details}">
                                 <input type="hidden" name="orderId" id="orderId" th:value="${order.getId()}" />

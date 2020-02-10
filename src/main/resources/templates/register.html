@@ -65,7 +65,7 @@
 
                             <div class="wrap-input100 validate-input m-b-16" data-validate = "Email is required">
                                 <input class="input100" type="email" th:filed="*{email}"  name="email"
-                                       pattern="(\w{2,})@(\w+\.)([a-z]{2,4})"
+                                       pattern="^\w+\.?\w{1,}@\w+\.[a-z]{2,4}$"
                                        th:placeholder="#{registration.field.email}" required th:title="#{registration.email.error}">
                                 <span class="focus-input100"></span>
                                 <label class="text-danger-form" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></label>
@@ -88,7 +88,7 @@
 
                             <div class="wrap-input100 validate-input m-b-16" data-validate = "Phone number is required">
                                 <input class="input100" type="text" th:filed="*{phone}"  name="phone"
-                                       pattern="[0-9]{10}"
+                                       pattern="^[0-9]{10}$"
                                        th:placeholder="#{registration.field.phone}" required th:title="#{registration.phone.error}">
                                 <span class="focus-input100"></span>
                                 <label class="text-danger-form" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></label>

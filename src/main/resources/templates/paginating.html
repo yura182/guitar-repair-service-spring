@@ -18,21 +18,21 @@
 <body>
 <nav aria-label="Navigation" th:fragment="paginating">
     <ul class="pagination">
-        <li class="page-item" th:if="${currentPage != 1}">
+        <li class="page-item" th:if="${page.hasPrevious()}">
             <a class="page-link"
-               th:href="@{${#httpServletRequest.requestURI}(currentPage=${currentPage - 1}, recordsPerPage=${recordsPerPage})}"
+               th:href="@{${#httpServletRequest.requestURI}(page=${page.number-1}, size=${page.size})}"
                th:text="#{pagination.prev}"></a>
         </li>
 
-        <li class="page-item" th:classappend="${i eq currentPage} ? 'active'"
-            th:if="${numberOfPages gt 1}" th:each="i : ${#numbers.sequence(1, numberOfPages)}">
-            <a class="page-link" th:href="@{${#httpServletRequest.requestURI}(currentPage=${i},
-             recordsPerPage=${recordsPerPage})}" th:text="${i}"></a>
+        <li class="page-item" th:classappend="${i == page.getNumber()} ? 'active'"
+            th:if="${page.totalPages > 1}" th:each="i : ${#numbers.sequence(0, page.totalPages-1)}">
+            <a class="page-link" th:href="@{${#httpServletRequest.requestURI}(page=${i},
+             size=${page.size})}" th:text="${i+1}"></a>
         </li>
 
-        <li class="page-item" th:if="${currentPage < numberOfPages}">
+        <li class="page-item" th:if="${page.hasNext()}">
             <a class="page-link" th:text="#{pagination.next}"
-               th:href="@{${#httpServletRequest.requestURI}(currentPage=${currentPage}+1, recordsPerPage=${recordsPerPage})}"></a>
+               th:href="@{${#httpServletRequest.requestURI}(page=${page.getNumber()}+1, size=${page.size})}"></a>
         </li>
     </ul>
 </nav>

@@ -49,13 +49,13 @@
                         <th><span class="profile-header" th:text="#{all.users.table.role}"></span></th>
                     </thead>
                     <tbody>
-                    <tr th:each="user: ${entities}">
+                    <tr th:each="user: ${page.content}">
                         <td th:text="${user.getId()}"></td>
                         <td th:text="${user.getName()}"></td>
                         <td th:text="${user.getSurname()}"></td>
                         <td th:text="${user.getEmail()}"></td>
                         <td th:text="${user.getPhone()}"></td>
-                        <td th:text="${user.getRole().toString()}"></td>
+                        <td th:text="#{${user.getRole().getLocaleDescription()}}"></td>
                     </tr>
                     </tbody>
                 </table>

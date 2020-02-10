@@ -56,6 +56,10 @@
                         <td><span class="profile-header" th:text="#{profile.phone}"></span></td>
                         <td th:text="${user.getPhone()}"></td>
                     </tr>
+                    <tr>
+                        <td><span class="profile-header" th:text="#{profile.role}"></span></td>
+                        <td th:text="#{${user.getRole().getLocaleDescription()}}"></td>
+                    </tr>
                     </tbody>
                 </table>
 

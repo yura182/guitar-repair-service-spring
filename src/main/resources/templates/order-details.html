@@ -50,15 +50,15 @@
                     </tr>
                     <tr>
                         <td><span class="profile-header" th:text="#{user.orders.table.instrument.brand}"></span></td>
-                        <td th:text="${order.getInstrument().getBrand()}"></td>
+                        <td th:text="${order.getInstrumentDto().getBrand()}"></td>
                     </tr>
                     <tr>
                         <td><span class="profile-header" th:text="#{user.orders.table.instrument.model}"></span></td>
-                        <td th:text="${order.getInstrument().getModel()}"></td>
+                        <td th:text="${order.getInstrumentDto().getModel()}"></td>
                     </tr>
                     <tr>
                         <td><span class="profile-header" th:text="#{user.orders.table.instrument.year}"></span></td>
-                        <td th:text="${order.getInstrument().getManufactureYear()}"></td>
+                        <td th:text="${order.getInstrumentDto().getManufactureYear()}"></td>
                     </tr>
                     <tr>
                         <td><span class="profile-header" th:text="#{user.orders.table.service}"></span></td>
@@ -70,7 +70,7 @@
                     </tr>
                     <tr>
                         <td><span class="profile-header" th:text="#{user.orders.table.status}"></span></td>
-                        <td th:text="${order.getStatus()}"></td>
+                        <td th:text="${order.getStatus().getLocaleDescrption()}"></td>
                     </tr>
                     <tr>
                         <td><span class="profile-header" th:text="#{user.orders.table.rejection.reason}"></span></td>
