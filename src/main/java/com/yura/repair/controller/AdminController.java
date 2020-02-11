@@ -2,7 +2,6 @@ package com.yura.repair.controller;
 
 import com.yura.repair.dto.OrderDto;
 import com.yura.repair.dto.UserDto;
-import com.yura.repair.entity.Status;
 import com.yura.repair.service.OrderService;
 import com.yura.repair.service.UserService;
 import lombok.AllArgsConstructor;

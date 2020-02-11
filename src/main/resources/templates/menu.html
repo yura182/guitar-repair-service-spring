@@ -20,16 +20,19 @@
                     <a class="nav-link js-scroll-trigger" th:href="@{/register}" th:text="#{menu.register}"></a>
                 </li>
                 <li class="nav-item" sec:authorize="hasAuthority('CLIENT')">
-                    <a class="nav-link js-scroll-trigger" th:href="@{/user/add-order}" th:text="#{menu.order}"></a>
+                    <a class="nav-link js-scroll-trigger" th:href="@{/client/add-order}" th:text="#{menu.order}"></a>
                 </li>
                 <li class="nav-item" sec:authorize="hasAuthority('CLIENT')">
-                    <a class="nav-link js-scroll-trigger" th:href="@{/user/orders(page=0, size=5)}" th:text="#{menu.user.orders}"></a>
+                    <a class="nav-link js-scroll-trigger" th:href="@{/client/orders(page=0, size=5)}" th:text="#{menu.user.orders}"></a>
                 </li>
                 <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
                     <a class="nav-link js-scroll-trigger" th:href="@{/admin/users(page=0, size=5)}" th:text="#{menu.all.users}"></a>
                 </li>
                 <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
                     <a class="nav-link js-scroll-trigger" th:href="@{/admin/orders(page=0, size=5)}" th:text="#{menu.all.orders}"></a>
+                </li>
+                <li class="nav-item" sec:authorize="hasAuthority('MASTER')">
+                    <a class="nav-link js-scroll-trigger" th:href="@{/master/orders(page=0, size=5)}" th:text="#{menu.master.available.orders}"></a>
                 </li>
             </ul>
 

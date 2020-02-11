@@ -59,7 +59,7 @@
                         <td th:text="${order.getService()}"></td>
                         <td th:text="#{${order.getStatus().getLocaleDescription()}}"></td>
                         <td>
-                            <a class="details-link" th:href="@{/user/order/{orderId}(orderId = ${order.getId()})}" th:text="#{user.orders.details}"></a>
+                            <a class="details-link" th:href="@{/client/order/{orderId}(orderId = ${order.getId()})}" th:text="#{user.orders.details}"></a>
                     </tr>
                     </tbody>
                 </table>
