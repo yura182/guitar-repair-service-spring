@@ -12,19 +12,19 @@
     <title th:text="#{main.title}"></title>
 
     <!-- Bootstrap core CSS -->
-    <link th:href="@{vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
 
     <!-- Custom fonts for this template -->
-    <link th:href="@{vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
 
     <!-- Custom styles for this template -->
-    <link th:href="@{css/agency.css}" rel="stylesheet">
-    <link rel="shortcut icon" th:href="@{img/favicon.ico}" type="image/x-icon">
-    <link rel="icon" th:href="@{img/favicon.ico}" type="image/x-icon">
+    <link th:href="@{/css/agency.css}" rel="stylesheet">
+    <link rel="shortcut icon" th:href="@{/img/favicon.ico}" type="image/x-icon">
+    <link rel="icon" th:href="@{/img/favicon.ico}" type="image/x-icon">
 
 </head>
 
@@ -50,13 +50,16 @@
                     <a class="nav-link js-scroll-trigger" th:href="@{/register}" th:text="#{menu.register}"></a>
                 </li>
                 <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
-                    <a class="nav-link js-scroll-trigger" th:href="@{/users(currentPage=1, recordsPerPage=4)}" th:text="#{menu.all.users}"></a>
+                    <a class="nav-link js-scroll-trigger" th:href="@{/admin/users(page=0, size=5)}" th:text="#{menu.all.users}"></a>
                 </li>
                 <li class="nav-item" sec:authorize="hasAuthority('CLIENT')">
-                    <a class="nav-link js-scroll-trigger" th:href="@{/add-order}" th:text="#{menu.order}"></a>
+                    <a class="nav-link js-scroll-trigger" th:href="@{/user/add-order}" th:text="#{menu.order}"></a>
                 </li>
                 <li class="nav-item" sec:authorize="hasAuthority('CLIENT')">
-                    <a class="nav-link js-scroll-trigger" th:href="@{/user-orders(currentPage=1, recordsPerPage=4)}" th:text="#{menu.user.orders}"></a>
+                    <a class="nav-link js-scroll-trigger" th:href="@{/user/orders(page=0, size=5)}" th:text="#{menu.user.orders}"></a>
+                </li>
+                <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
+                    <a class="nav-link js-scroll-trigger" th:href="@{/admin/orders(page=0, size=5)}" th:text="#{menu.all.orders}"></a>
                 </li>
             </ul>
 
@@ -165,18 +168,18 @@
 
 
 <!-- Bootstrap core JavaScript -->
-<script th:src="@{vendor/jquery/jquery.min.js}"></script>
-<script th:src="@{vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
 
 <!-- Plugin JavaScript -->
-<script th:src="@{vendor/jquery-easing/jquery.easing.min.js}"></script>
+<script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
 
 <!-- Contact form JavaScript -->
-<script th:src="@{js/jqBootstrapValidation.js}"></script>
-<script th:src="@{js/contact_me.js}"></script>
+<script th:src="@{/js/jqBootstrapValidation.js}"></script>
+<script th:src="@{/js/contact_me.js}"></script>
 
 <!-- Custom scripts for this template -->
-<script th:src="@{js/agency.min.js}"></script>
+<script th:src="@{/js/agency.min.js}"></script>
 
 </body>
 

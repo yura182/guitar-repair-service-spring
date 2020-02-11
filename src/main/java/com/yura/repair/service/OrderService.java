@@ -22,9 +22,9 @@ public interface OrderService {
 
     Page<OrderDto> findAll(Pageable pageable);
 
-    void acceptOrder(OrderDto orderDto);
+    void acceptOrder(Integer orderId, Double price);
 
-    void rejectOrder(OrderDto orderDto, String rejectionReason);
+    void rejectOrder(Integer orderId, String rejectionReason);
 
     void processOrder(OrderDto orderDto, UserDto master);
 

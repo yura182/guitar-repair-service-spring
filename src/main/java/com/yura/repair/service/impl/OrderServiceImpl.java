@@ -2,6 +2,7 @@ package com.yura.repair.service.impl;
 
 import com.yura.repair.dto.OrderDto;
 import com.yura.repair.dto.UserDto;
+import com.yura.repair.entity.OrderEntity;
 import com.yura.repair.entity.Status;
 import com.yura.repair.repository.OrderRepository;
 import com.yura.repair.service.OrderService;
@@ -11,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
 
@@ -62,13 +64,25 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void acceptOrder(OrderDto orderDto) {
-        orderRepository.updateOrderStatus(orderDto.getId(), Status.ACCEPTED);
+    @Transactional
+    public void acceptOrder(Integer orderId, Double price) {
+        OrderDto orderDto = findById(orderId);
+
+        orderDto.setPrice(price);
+        orderDto.setStatus(Status.ACCEPTED);
+
+        orderRepository.save(orderMapper.mapDtoToEntity(orderDto));
     }
 
     @Override
-    public void rejectOrder(OrderDto orderDto, String rejectionReason) {
-        orderRepository.updateOrderStatus(orderDto.getId(), Status.REJECTED, rejectionReason);
+    @Transactional
+    public void rejectOrder(Integer orderId, String rejectionReason) {
+        OrderDto orderDto = findById(orderId);
+
+        orderDto.setStatus(Status.REJECTED);
+        orderDto.setRejectionReason(rejectionReason);
+
+        orderRepository.save(orderMapper.mapDtoToEntity(orderDto));
     }
 
     @Override

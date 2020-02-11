@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="Yriy Petrashenko">
 
-    <title th:text="#{all.users.title}"></title>
+    <title th:text="#{order.details.title}"></title>
 
     <!-- Bootstrap core CSS -->
     <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
@@ -17,8 +17,7 @@
     <link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet'
-          type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
 
     <!-- Custom styles for this template -->
@@ -38,34 +37,56 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h2 class="section-heading text-uppercase" th:text="#{all.users.title.body}"></h2>
-                <h3 class="section-subheading text-muted" th:text="#{all.users.body.subtitle}"></h3>
+                <h2 class="section-heading text-uppercase" th:text="#{order.details.title.body}"></h2>
+                <h3 class="section-subheading text-muted" th:text="#{order.details.body.subtitle}"></h3>
 
-                <table class="table table-striped">
-                    <thead>
-                        <th><span class="profile-header" th:text="#{all.users.table.id}"></span></th>
-                        <th><span class="profile-header" th:text="#{all.users.table.name}"></span></th>
-                        <th><span class="profile-header" th:text="#{all.users.table.surname}"></span></th>
-                        <th><span class="profile-header" th:text="#{all.users.table.email}"></span></th>
-                        <th><span class="profile-header" th:text="#{all.users.table.phone}"></span></th>
-                        <th><span class="profile-header" th:text="#{all.users.table.role}"></span></th>
-                    </thead>
+                <table class="table table-striped profile">
                     <tbody>
-                    <tr th:each="user: ${page.content}">
-                        <td th:text="${user.getId()}"></td>
-                        <td th:text="${user.getName()}"></td>
-                        <td th:text="${user.getSurname()}"></td>
-                        <td th:text="${user.getEmail()}"></td>
-                        <td th:text="${user.getPhone()}"></td>
-                        <td th:text="#{${user.getRole().getLocaleDescription()}}"></td>
+                    <tr>
+                        <td ><span class="profile-header" th:text="#{user.orders.table.id}"></span> </td>
+                        <td th:text="${order.getId()}"></td>
+                    </tr>
+                    <tr>
+                        <td><span class="profile-header" th:text="#{user.orders.table.date}"></span></td>
+                        <td th:text="${#temporals.format(order.getDateTime(), 'dd MMMM yyyy, HH:mm')}"></td>
+                    </tr>
+                    <tr>
+                        <td><span class="profile-header" th:text="#{user.orders.table.instrument.brand}"></span></td>
+                        <td th:text="${order.getInstrumentDto().getBrand()}"></td>
+                    </tr>
+                    <tr>
+                        <td><span class="profile-header" th:text="#{user.orders.table.instrument.model}"></span></td>
+                        <td th:text="${order.getInstrumentDto().getModel()}"></td>
+                    </tr>
+                    <tr>
+                        <td><span class="profile-header" th:text="#{user.orders.table.instrument.year}"></span></td>
+                        <td th:text="${order.getInstrumentDto().getManufactureYear()}"></td>
+                    </tr>
+                    <tr>
+                        <td><span class="profile-header" th:text="#{user.orders.table.service}"></span></td>
+                        <td th:text="${order.getService()}"></td>
+                    </tr>
+                    <tr th:if="${order.getPrice() != null}">
+                        <td><span class="profile-header" th:text="#{user.orders.table.price}"></span></td>
+                        <td>$<span th:text="${#numbers.formatDecimal(order.getPrice(), 1, 2)}"></span></td>
+                    </tr>
+                    <tr>
+                        <td><span class="profile-header" th:text="#{user.orders.table.status}"></span></td>
+                        <td th:text="#{${order.getStatus().getLocaleDescription()}}"></td>
+                    </tr>
+                    <tr th:if="${!#strings.isEmpty(order.getRejectionReason())}">
+                        <td><span class="profile-header" th:text="#{user.orders.table.rejection.reason}"></span></td>
+                        <td th:text="${order.getRejectionReason()}"></td>
                     </tr>
                     </tbody>
                 </table>
-                <div th:replace="paginating :: paginating"></div>
+
+
             </div>
         </div>
     </div>
 </section>
+
 
 
 <!-- Footer -->
@@ -104,9 +125,10 @@
 </footer>
 
 
+
 <!-- Bootstrap core JavaScript -->
 <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
-<script th:src="@{/endor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
 
 <!-- Plugin JavaScript -->
 <script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>

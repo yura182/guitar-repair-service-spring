@@ -29,8 +29,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.authorizeRequests()
                 .antMatchers("/", "/login", "/register").permitAll()
-                .antMatchers( "/users").hasAuthority("ADMIN")
-                .antMatchers("/add-order", "/my-orders").hasAuthority("CLIENT").anyRequest()
+                .antMatchers( "/admin/**").hasAuthority("ADMIN")
+                .antMatchers("/user/**").hasAuthority("CLIENT").anyRequest()
                 .authenticated().and().csrf().disable().formLogin()
                 .loginPage("/login").failureUrl("/login-error").successHandler(loginSuccessHandler).permitAll()
                 .usernameParameter("email")
@@ -44,7 +44,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) {
         web.ignoring()
-                .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/img/**", "/scss/**", "/vendor/**", "/img/favicon.ico");
+                .antMatchers("/resources/**", "/static/**", "/css/**", "/js/**", "/img/**", "/scss/**", "/vendor/**");
 
     }
 }

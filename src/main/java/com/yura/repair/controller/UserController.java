@@ -10,12 +10,14 @@ import com.yura.repair.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
@@ -24,7 +26,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.Valid;
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.util.List;
 import java.util.Objects;
 
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -103,7 +104,7 @@ public class UserController implements PaginationUtility {
         return modelAndView;
     }
 
-    @GetMapping("/add-order")
+    @GetMapping("/user/add-order")
     public ModelAndView register(ModelAndView modelAndView) {
         modelAndView.addObject("instrumentDto", new InstrumentDto());
         modelAndView.addObject("orderDto", new OrderDto());
@@ -112,7 +113,7 @@ public class UserController implements PaginationUtility {
         return modelAndView;
     }
 
-    @PostMapping("/add-order")
+    @PostMapping("/user/add-order")
     public ModelAndView saveOrder(@Valid InstrumentDto instrumentDto, BindingResult instrumentResult,
                                   @Valid OrderDto orderDto, BindingResult orderResult,
                                   RedirectAttributes redirectAttributes) {
@@ -130,15 +131,15 @@ public class UserController implements PaginationUtility {
 
             orderService.add(orderDto);
 
-            modelAndView.setViewName("redirect:/add-order");
+            modelAndView.setViewName("redirect:/user/add-order");
             redirectAttributes.addFlashAttribute("successMessage", "order.success");
         }
 
         return modelAndView;
     }
 
-    @GetMapping("/user-orders")
-    public ModelAndView userOrders(Pageable pageable) {
+    @GetMapping("/user/orders")
+    public ModelAndView userOrders(@PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
         UserDto userDto = (UserDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         Page<OrderDto> orders = orderService.findByClient(userDto.getId(), pageable);
 
@@ -148,22 +149,29 @@ public class UserController implements PaginationUtility {
         return modelAndView;
     }
 
-    @PostMapping("/user-order-details")
-    public ModelAndView orderDetails(@RequestParam Integer orderId) {
-        ModelAndView modelAndView = new ModelAndView("order-details");
+    @GetMapping("/user/order/{orderId}")
+    public ModelAndView orderDetails(@PathVariable("orderId") Integer orderId) {
+        ModelAndView modelAndView = new ModelAndView();
         OrderDto orderDto = orderService.findById(orderId);
-        modelAndView.addObject("order", orderDto);
+        UserDto loggedUser = (UserDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+
+        if (orderDto.getClient().getId().equals(loggedUser.getId())) {
+            modelAndView.addObject("order", orderDto);
+            modelAndView.setViewName("user-order-details");
+        } else {
+            modelAndView.setViewName("404");
+        }
 
         return modelAndView;
     }
 
-    @GetMapping("/all-orders")
-    public ModelAndView allOrders(@RequestParam Integer currentPage, @RequestParam Integer recordsPerPage) {
-        paginationValidate(currentPage, recordsPerPage);
-
-        List<OrderDto> orders = orderService.findAll(PageRequest.of(currentPage - 1, recordsPerPage));
-
-        return paginate(currentPage, recordsPerPage, "all-orders", orderService.numberOfEntries(), orders);
-    }
+//    @GetMapping("/all-orders")
+//    public ModelAndView allOrders(@RequestParam Integer currentPage, @RequestParam Integer recordsPerPage) {
+//        paginationValidate(currentPage, recordsPerPage);
+//
+//        List<OrderDto> orders = orderService.findAll(PageRequest.of(currentPage - 1, recordsPerPage));
+//
+//        return paginate(currentPage, recordsPerPage, "all-orders", orderService.numberOfEntries(), orders);
+//    }
 
 }
