@@ -1,9 +1,10 @@
 package com.yura.repair.service.impl;
 
 import com.yura.repair.dto.InstrumentDto;
+import com.yura.repair.entity.InstrumentEntity;
 import com.yura.repair.repository.InstrumentRepository;
 import com.yura.repair.service.InstrumentService;
-import com.yura.repair.service.mapper.InstrumentMapper;
+import com.yura.repair.service.mapper.EntityMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,7 @@ import org.springframework.stereotype.Service;
 @Service
 public class InstrumentServiceImpl implements InstrumentService {
     private final InstrumentRepository instrumentRepository;
-    private final InstrumentMapper instrumentMapper;
+    private final EntityMapper<InstrumentEntity, InstrumentDto> instrumentMapper;
 
     @Override
     public void add(InstrumentDto instrumentDto) {

@@ -11,7 +11,7 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,28 +29,29 @@ public class ClientController {
     private final OrderService orderService;
 
     @GetMapping("/client/orders")
-    public ModelAndView userOrders(@PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable) {
-        UserDto clientDto = (UserDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public ModelAndView userOrders(@PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+                                   @AuthenticationPrincipal UserDto clientDto, ModelAndView modelAndView) {
+
         Page<OrderDto> orders = orderService.findByClient(clientDto.getId(), pageable);
 
-        ModelAndView modelAndView = new ModelAndView("client-orders");
+        modelAndView.setViewName("client-orders");
         modelAndView.addObject("page", orders);
 
         return modelAndView;
     }
 
     @GetMapping("/client/order/{orderId}")
-    public ModelAndView orderDetails(@PathVariable("orderId") Integer orderId) {
-        ModelAndView modelAndView = new ModelAndView();
-        OrderDto orderDto = orderService.findById(orderId);
-        UserDto loggedUser = (UserDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+    public ModelAndView orderDetails(@PathVariable("orderId") Integer orderId,
+                                     @AuthenticationPrincipal UserDto loggedUser, ModelAndView modelAndView) {
 
-        if (orderDto.getClient().getId().equals(loggedUser.getId())) {
-            modelAndView.addObject("order", orderDto);
-            modelAndView.setViewName("client-order-details");
-        } else {
+        OrderDto orderDto = orderService.findById(orderId);
+
+        if (!orderDto.getClient().getId().equals(loggedUser.getId())) {
             modelAndView.setViewName("404");
         }
+
+        modelAndView.addObject("order", orderDto);
+        modelAndView.setViewName("client-order-details");
 
         return modelAndView;
     }
@@ -67,24 +68,24 @@ public class ClientController {
     @PostMapping("/client/add-order")
     public ModelAndView saveOrder(@Valid InstrumentDto instrumentDto, BindingResult instrumentResult,
                                   @Valid OrderDto orderDto, BindingResult orderResult,
-                                  RedirectAttributes redirectAttributes) {
-
-        ModelAndView modelAndView = new ModelAndView();
+                                  @AuthenticationPrincipal UserDto client,
+                                  ModelAndView modelAndView, RedirectAttributes redirectAttributes) {
 
         if (instrumentResult.hasErrors() || orderResult.hasErrors()) {
             modelAndView.setViewName("client-add-order");
             modelAndView.addObject("errorMessage", "order.error");
-        } else {
-            orderDto.setStatus(Status.NEW);
-            orderDto.setClient((UserDto) SecurityContextHolder.getContext().getAuthentication().getPrincipal());
-            orderDto.setInstrumentDto(instrumentDto);
-            orderDto.setDateTime(LocalDateTime.now());
-
-            orderService.add(orderDto);
-
-            modelAndView.setViewName("redirect:/client/add-order");
-            redirectAttributes.addFlashAttribute("successMessage", "order.success");
+            return modelAndView;
         }
+
+        orderDto.setStatus(Status.NEW);
+        orderDto.setClient(client);
+        orderDto.setInstrumentDto(instrumentDto);
+        orderDto.setDateTime(LocalDateTime.now());
+
+        orderService.add(orderDto);
+
+        modelAndView.setViewName("redirect:/client/add-order");
+        redirectAttributes.addFlashAttribute("successMessage", "order.success");
 
         return modelAndView;
     }

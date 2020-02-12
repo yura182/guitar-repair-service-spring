@@ -1,10 +1,7 @@
 package com.yura.repair.dto;
 
 import com.yura.repair.entity.Role;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -34,6 +31,7 @@ public class UserDto implements UserDetails {
     @Pattern(regexp = "^\\w+\\.?\\w{1,}@\\w+\\.[a-z]{2,4}$", message = "Email is not correct")
     private String email;
 
+    @ToString.Exclude
     @NotEmpty(message = "Please enter password")
     @Pattern(regexp = "[A-Za-z0-9]{8,}", message = "Password must be longer than 8 characters")
     private String password;

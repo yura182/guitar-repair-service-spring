@@ -1,9 +1,6 @@
 package com.yura.repair.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
@@ -29,6 +26,7 @@ public class UserEntity {
     @Column(name = "email", nullable = false, length = 60)
     private String email;
 
+    @ToString.Exclude
     @Column(name = "password", nullable = false, length = 100)
     private String password;
 

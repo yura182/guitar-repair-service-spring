@@ -1,9 +1,10 @@
 package com.yura.repair.service.impl;
 
 import com.yura.repair.dto.ReviewDto;
+import com.yura.repair.entity.ReviewEntity;
 import com.yura.repair.repository.ReviewRepository;
 import com.yura.repair.service.ReviewService;
-import com.yura.repair.service.mapper.ReviewMapper;
+import com.yura.repair.service.mapper.EntityMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ import java.util.stream.Collectors;
 @Service
 public class ReviewServiceImpl implements ReviewService {
     private final ReviewRepository reviewRepository;
-    private final ReviewMapper reviewMapper;
+    private final EntityMapper<ReviewEntity, ReviewDto> reviewMapper;
 
     @Override
     public void add(ReviewDto reviewDto) {

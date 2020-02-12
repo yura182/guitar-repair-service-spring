@@ -4,9 +4,10 @@ import com.yura.repair.dto.OrderDto;
 import com.yura.repair.dto.UserDto;
 import com.yura.repair.entity.OrderEntity;
 import com.yura.repair.entity.Status;
+import com.yura.repair.exception.OrderAlreadyUpdatedException;
 import com.yura.repair.repository.OrderRepository;
 import com.yura.repair.service.OrderService;
-import com.yura.repair.service.mapper.OrderMapper;
+import com.yura.repair.service.mapper.EntityMapper;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -20,7 +21,7 @@ import javax.persistence.EntityNotFoundException;
 @Service
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
-    private final OrderMapper orderMapper;
+    private final EntityMapper<OrderEntity, OrderDto> orderMapper;
 
     @Override
     public void add(OrderDto orderDto) {
@@ -86,18 +87,26 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void processOrder(OrderDto orderDto, UserDto master) {
-//        OrderEntity orderEntity = orderMapper.mapDtoToEntity(orderDto, master); TODO
-//        orderRepository.updateOrderMaster(orderEntity.getId(), orderEntity.getMaster(), Status.PROCESSING);
+    @Transactional
+    public void processOrder(Integer orderId, UserDto master) {
+        OrderDto orderDto = findById(orderId);
+
+        if (orderDto.getStatus() == Status.PROCESSING) {
+            throw new OrderAlreadyUpdatedException("Order's already processed by another master");
+        }
+
+        orderDto.setStatus(Status.PROCESSING);
+        orderDto.setMaster(master);
+
+        orderRepository.save(orderMapper.mapDtoToEntity(orderDto));
     }
 
     @Override
-    public void completeOrder(OrderDto orderDto) {
-        orderRepository.updateOrderStatus(orderDto.getId(), Status.COMPLETED);
-    }
+    @Transactional
+    public void completeOrder(Integer orderId) {
+        OrderDto orderDto = findById(orderId);
 
-    @Override
-    public void setPrice(OrderDto orderDto, Double price) {
-        orderRepository.updateOrderPrice(orderDto.getId(), price);
+        orderDto.setStatus(Status.COMPLETED);
+        orderRepository.save(orderMapper.mapDtoToEntity(orderDto));
     }
 }

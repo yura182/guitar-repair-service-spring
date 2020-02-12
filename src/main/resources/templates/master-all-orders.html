@@ -45,6 +45,7 @@
                     <thead>
                     <th><span class="profile-header" th:text="#{user.orders.table.id}"></span></th>
                     <th><span class="profile-header" th:text="#{user.orders.table.date}"></span></th>
+                    <th><span class="profile-header" th:text="#{all.orders.table.client.name}"></span></th>
                     <th><span class="profile-header" th:text="#{user.orders.table.instrument.brand}"></span></th>
                     <th><span class="profile-header" th:text="#{user.orders.table.service}"></span></th>
                     <th><span class="profile-header" th:text="#{user.orders.table.status}"></span></th>
@@ -55,7 +56,8 @@
                     <tr th:each="order: ${page.content}">
                         <td th:text="${order.getId()}"></td>
                         <td th:text="${#temporals.format(order.getDateTime(), 'dd MMMM yyyy, HH:mm')}"></td>
-                        <td th:text="${order.getInstrumentDto().getBrand()}"></td>
+                        <td th:text="${#objects.nullSafe(order.getClient().getName(), '')} + ' ' + ${#objects.nullSafe(order.getClient().getSurname(), '')}"></td>
+                        <td th:text="${#objects.nullSafe(order.getInstrumentDto().getBrand(), '')}"></td>
                         <td th:text="${order.getService()}"></td>
                         <td th:text="#{${order.getStatus().getLocaleDescription()}}"></td>
                         <td>

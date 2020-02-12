@@ -55,7 +55,7 @@
                     <tr th:each="order: ${page.content}">
                         <td th:text="${order.getId()}"></td>
                         <td th:text="${#temporals.format(order.getDateTime(), 'dd MMMM yyyy, HH:mm')}"></td>
-                        <td th:text="${order.getInstrumentDto().getBrand()}"></td>
+                        <td th:text="${#objects.nullSafe(order.getInstrumentDto().getBrand(), '')}"></td>
                         <td th:text="${order.getService()}"></td>
                         <td th:text="#{${order.getStatus().getLocaleDescription()}}"></td>
                         <td>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
@@ -17,7 +17,8 @@
     <link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet'
+          type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
 
     <!-- Custom styles for this template -->
@@ -37,20 +38,34 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h2 class="section-heading text-uppercase" th:text="#{order.details.title.body}"></h2>
-                <h3 class="section-subheading text-muted" th:text="#{order.details.body.subtitle}"></h3>
+                <h2 class="section-heading text-uppercase" th:text="#{admin.order.details.title.body}"></h2>
+                <h3 class="section-subheading text-muted" th:text="#{admin.order.details.body.subtitle}"></h3>
+                <p th:if="${successMessage != null}" class="text-success" th:text="#{${successMessage}}"></p>
+                <p th:if="${errorMessage != null}" class="text-danger" th:text="#{${errorMessage}}"></p>
 
                 <table class="table table-striped profile">
                     <tbody>
                     <tr>
-                        <td ><span class="profile-header" th:text="#{user.orders.table.id}"></span> </td>
+                        <td><span class="profile-header" th:text="#{user.orders.table.id}"></span></td>
                         <td th:text="${order.getId()}"></td>
                     </tr>
                     <tr>
                         <td><span class="profile-header" th:text="#{user.orders.table.date}"></span></td>
                         <td th:text="${#temporals.format(order.getDateTime(), 'dd MMMM yyyy, HH:mm')}"></td>
                     </tr>
-                    <tr th:if="${order.getMaster() != null}">
+                    <tr>
+                        <td><span class="profile-header" th:text="#{all.orders.table.client.name}"></span></td>
+                        <td th:text="${order?.client?.name} + ' ' + ${order?.client?.surname}"></td>
+                    </tr>
+                    <tr>
+                        <td><span class="profile-header" th:text="#{all.orders.table.client.email}"></span></td>
+                        <td th:text="${order?.client?.email}"></td>
+                    </tr>
+                    <tr>
+                        <td><span class="profile-header" th:text="#{all.orders.table.client.phone}"></span></td>
+                        <td th:text="${order?.client?.phone}"></td>
+                    </tr>
+                    <tr>
                         <td><span class="profile-header" th:text="#{all.orders.table.master.name}"></span></td>
                         <td th:text="${order?.master?.name} + ' ' + ${order?.master?.surname}"></td>
                     </tr>
@@ -78,19 +93,51 @@
                         <td><span class="profile-header" th:text="#{user.orders.table.status}"></span></td>
                         <td th:text="#{${order.getStatus().getLocaleDescription()}}"></td>
                     </tr>
-                    <tr th:if="${!#strings.isEmpty(order.getRejectionReason())}">
-                        <td><span class="profile-header" th:text="#{user.orders.table.rejection.reason}"></span></td>
-                        <td th:text="${order.getRejectionReason()}"></td>
-                    </tr>
                     </tbody>
                 </table>
 
+                <div class="row text-center" th:if="${order.getStatus().name() eq 'ACCEPTED'}">
+                    <div class="limiter">
+                        <div class="container-login100">
+                            <div class="wrap-login100 p-t-50 p-b-90">
+                                <form class="login100-form validate-form flex-sb flex-w"
+                                      th:action="@{/master/process-order}" method="post">
+                                    <input type="hidden" name="orderId" th:value="${order.getId()}">
+
+                                    <div class="container-login100-form-btn m-t-17 order-details-button-master">
+                                        <button class="login100-form-btn" type="submit"
+                                                th:text="#{process.button}"></button>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row text-center" th:if="${order.getStatus().name() eq 'PROCESSING'}">
+                    <div class="limiter">
+                        <div class="container-login100">
+                            <div class="wrap-login100 p-t-50 p-b-90">
+                                <form class="login100-form validate-form flex-sb flex-w"
+                                      th:action="@{/master/complete-order}" method="post">
+                                    <input type="hidden" name="orderId" th:value="${order.getId()}">
+
+                                    <div class="container-login100-form-btn m-t-17 order-details-button-master">
+                                        <button class="login100-form-btn" type="submit"
+                                                th:text="#{complete.button}"></button>
+                                    </div>
+
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
 
             </div>
         </div>
     </div>
 </section>
-
 
 
 <!-- Footer -->
@@ -127,7 +174,6 @@
         </div>
     </div>
 </footer>
-
 
 
 <!-- Bootstrap core JavaScript -->

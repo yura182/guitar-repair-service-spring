@@ -1,9 +1,11 @@
 package com.yura.repair.service.impl;
 
 import com.yura.repair.dto.UserDto;
+import com.yura.repair.entity.UserEntity;
 import com.yura.repair.exception.AlreadyRegisteredUserException;
 import com.yura.repair.repository.UserRepository;
 import com.yura.repair.service.UserService;
+import com.yura.repair.service.mapper.EntityMapper;
 import com.yura.repair.service.mapper.UserMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
@@ -22,8 +24,8 @@ import javax.persistence.EntityNotFoundException;
 @Service
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
+    private final EntityMapper<UserEntity, UserDto> userMapper;
     private final BCryptPasswordEncoder encoder;
-    private final UserMapper userMapper;
 
     @Override
     @Transactional

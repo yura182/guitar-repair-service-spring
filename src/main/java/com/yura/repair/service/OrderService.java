@@ -1,12 +1,10 @@
 package com.yura.repair.service;
 
 import com.yura.repair.dto.OrderDto;
-import com.yura.repair.entity.Status;
 import com.yura.repair.dto.UserDto;
+import com.yura.repair.entity.Status;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-
-import java.util.List;
 
 public interface OrderService {
 
@@ -26,9 +24,7 @@ public interface OrderService {
 
     void rejectOrder(Integer orderId, String rejectionReason);
 
-    void processOrder(OrderDto orderDto, UserDto master);
+    void processOrder(Integer orderId, UserDto master);
 
-    void completeOrder(OrderDto orderDto);
-
-    void setPrice(OrderDto orderDto, Double price);
+    void completeOrder(Integer orderId);
 }
