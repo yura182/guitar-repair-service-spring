@@ -24,6 +24,9 @@ import javax.validation.Valid;
 import java.security.Principal;
 import java.util.Objects;
 
+import static com.yura.repair.constant.AttributeName.*;
+import static com.yura.repair.constant.PageUrl.*;
+
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 @Controller
 public class UserController {
@@ -32,15 +35,15 @@ public class UserController {
 
     @GetMapping("/")
     public String main() {
-        return "index";
+        return INDEX;
     }
 
     @GetMapping("/login")
     public ModelAndView login(ModelAndView modelAndView, Principal loggedUser) {
         if (Objects.nonNull(loggedUser)) {
-            modelAndView.setViewName("redirect:/");
+            modelAndView.setViewName(REDIRECT + HOME_PAGE);
         } else {
-            modelAndView.setViewName("login");
+            modelAndView.setViewName(LOGIN);
         }
 
         return modelAndView;
@@ -49,10 +52,10 @@ public class UserController {
     @GetMapping("/register")
     public ModelAndView register(ModelAndView modelAndView, Principal loggedUser) {
         if (Objects.nonNull(loggedUser)) {
-            modelAndView.setViewName("redirect:/");
+            modelAndView.setViewName(REDIRECT + HOME_PAGE);
         } else {
-            modelAndView.addObject("userDto", new UserDto());
-            modelAndView.setViewName("register");
+            modelAndView.addObject(ATTR_NAME_USER, new UserDto());
+            modelAndView.setViewName(REGISTER);
         }
 
         return modelAndView;
@@ -64,22 +67,23 @@ public class UserController {
                                  ModelAndView modelAndView, RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
-            modelAndView.addObject("errorMessage", "register.error");
-            modelAndView.setViewName("register");
+            modelAndView.addObject(ATTR_NAME_ERROR_MESSAGE, "register.error");
+            modelAndView.setViewName(REGISTER);
             return modelAndView;
         }
 
         if (!Objects.equals(userDto.getPassword(), passwordConfirmation)) {
-            modelAndView.addObject("confirmationError", true);
-            modelAndView.setViewName("register");
+            modelAndView.addObject(ATTR_NAME_CONFIRMATION_ERROR, true);
+            modelAndView.setViewName(REGISTER);
             return modelAndView;
+
         }
 
         userDto.setRole(Role.CLIENT);
         userService.register(userDto);
 
-        redirectAttributes.addFlashAttribute("successMessage", "login.just.registered");
-        modelAndView.setViewName("redirect:/login");
+        redirectAttributes.addFlashAttribute(ATTR_NAME_SUCCESS_MESSAGE, "login.just.registered");
+        modelAndView.setViewName(REDIRECT + LOGIN);
 
         return modelAndView;
     }
@@ -87,15 +91,15 @@ public class UserController {
     @GetMapping("/login-error")
     public ModelAndView loginError(ModelAndView modelAndView, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("errorMessage", "login.error");
-        modelAndView.setViewName("redirect:/login");
+        modelAndView.setViewName(REDIRECT + LOGIN);
 
         return modelAndView;
     }
 
     @GetMapping("/profile")
     public ModelAndView profile(@AuthenticationPrincipal UserDto userDto, ModelAndView modelAndView) {
-        modelAndView.addObject("user", userDto);
-        modelAndView.setViewName("profile");
+        modelAndView.addObject(ATTR_NAME_USER, userDto);
+        modelAndView.setViewName(PROFILE);
 
         return modelAndView;
     }
@@ -105,8 +109,8 @@ public class UserController {
                                 ModelAndView modelAndView) {
 
         Page<ReviewDto> reviews = reviewService.findAll(pageable);
-        modelAndView.setViewName("reviews");
-        modelAndView.addObject("page", reviews);
+        modelAndView.setViewName(REVIEWS);
+        modelAndView.addObject(ATTR_NAME_PAGE, reviews);
 
         return modelAndView;
     }
