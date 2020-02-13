@@ -11,17 +11,19 @@
     <title th:text="#{profile.title}"></title>
 
     <!-- Bootstrap core CSS -->
-    <link th:href="@{vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+    <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
 
     <!-- Custom fonts for this template -->
-    <link th:href="@{vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
+    <link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
 
     <!-- Custom styles for this template -->
-    <link th:href="@{css/agency.css}" rel="stylesheet">
+    <link th:href="@{/css/agency.css}" rel="stylesheet">
+    <link rel="shortcut icon" th:href="@{/img/favicon.ico}" type="image/x-icon">
+    <link rel="icon" th:href="@{/img/favicon.ico}" type="image/x-icon">
 
 </head>
 
@@ -42,19 +44,23 @@
                     <tbody>
                     <tr>
                         <td ><span class="profile-header" th:text="#{profile.name}"></span> </td>
-                        <td th:text="${user.getName()}"></td>
+                        <td th:text="${userDto.getName()}"></td>
                     </tr>
                     <tr>
                         <td><span class="profile-header" th:text="#{profile.surname}"></span></td>
-                        <td th:text="${user.getSurname()}"></td>
+                        <td th:text="${userDto.getSurname()}"></td>
                     </tr>
                     <tr>
                         <td><span class="profile-header" th:text="#{profile.email}"></span></td>
-                        <td th:text="${user.getEmail()}"></td>
+                        <td th:text="${userDto.getEmail()}"></td>
                     </tr>
                     <tr>
                         <td><span class="profile-header" th:text="#{profile.phone}"></span></td>
-                        <td th:text="${user.getPhone()}"></td>
+                        <td th:text="${userDto.getPhone()}"></td>
+                    </tr>
+                    <tr>
+                        <td><span class="profile-header" th:text="#{profile.role}"></span></td>
+                        <td th:text="#{${userDto.getRole().getLocaleDescription()}}"></td>
                     </tr>
                     </tbody>
                 </table>
@@ -105,15 +111,15 @@
 
 
 <!-- Bootstrap core JavaScript -->
-<script th:src="@{vendor/jquery/jquery.min.js}"></script>
-<script th:src="@{vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
 
 <!-- Plugin JavaScript -->
-<script th:src="@{vendor/jquery-easing/jquery.easing.min.js}"></script>
+<script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
 
 <!-- Contact form JavaScript -->
-<script th:src="@{js/jqBootstrapValidation.js}"></script>
-<script th:src="@{js/contact_me.js}"></script>
+<script th:src="@{/js/jqBootstrapValidation.js}"></script>
+<script th:src="@{/js/contact_me.js}"></script>
 
 
 </body>

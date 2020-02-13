@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Yriy Petrashenko">
+
+    <title th:text="#{order.title}"></title>
+
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+
+    <!-- Custom styles for this template -->
+    <link th:href="@{/css/agency.css}" rel="stylesheet">
+    <link rel="shortcut icon" th:href="@{/img/favicon.ico}" type="image/x-icon">
+    <link rel="icon" th:href="@{/img/favicon.ico}" type="image/x-icon">
+
+</head>
+
+<body id="page-top">
+
+<!-- Navigation -->
+<div th:replace="menu :: menu"></div>
+
+<!-- Login -->
+<section class="page-section" id="services">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2 class="section-heading text-uppercase" th:text="#{order.title.body}"></h2>
+                <h3 class="section-subheading text-muted" th:text="#{order.body.subtitle}"></h3>
+                <p th:if="${errorMessage != null}" class="text-danger" th:text="#{${errorMessage}}"></p>
+                <p th:if="${successMessage != null}" class="text-success" th:text="#{order.success}"></p>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="limiter">
+                <div class="container-login100">
+                    <div class="wrap-login100 p-t-50 p-b-90">
+                        <form class="login100-form validate-form flex-sb flex-w"  th:action="@{/client/add-order}" method="post">
+
+                            <div class="wrap-input100 validate-input m-b-16" data-validate = "Brand is required">
+                                <input class="input100" type="text" th:filed="*{instrumentDto.brand}"  name="brand"
+                                       th:placeholder="#{order.field.brand}" required th:title="#{order.brand.error}">
+                                <span class="focus-input100"></span>
+                                <label class="text-danger-form" th:if="${#fields.hasErrors('instrumentDto.brand')}" th:errors="*{instrumentDto.brand}"></label>
+                            </div>
+
+                            <div class="wrap-input100 validate-input m-b-16" data-validate = "Model is required">
+                                <input class="input100" type="text" th:filed="*{instrumentDto.model}"  name="model"
+                                       th:placeholder="#{order.field.model}" required th:title="#{order.model.error}">
+                                <span class="focus-input100"></span>
+                                <label class="text-danger-form" th:if="${#fields.hasErrors('instrumentDto.model')}" th:errors="*{instrumentDto.model}"></label>
+                            </div>
+
+                            <div class="wrap-input100 validate-input m-b-16" data-validate = "Manufacture year is required">
+                                <input class="input100" type="text" th:filed="*{instrumentDto.manufactureYear}"  name="manufactureYear"
+                                       th:placeholder="#{order.field.manufactureYear}" th:title="#{order.manufactureYear.error}">
+                                <span class="focus-input100"></span>
+                                <label class="text-danger-form" th:if="${#fields.hasErrors('instrumentDto.manufactureYear')}" th:errors="*{instrumentDto.manufactureYear}"></label>
+                            </div>
+
+
+                            <div class="wrap-input100 validate-input m-b-16" data-validate = "Service is required">
+                                <textarea  class="input100" type="text" th:filed="*{orderDto.service}"  name="service"
+                                       th:placeholder="#{order.field.service}" required th:title="#{order.service.error}"></textarea>
+                                <span class="focus-input100"></span>
+                                <label class="text-danger-form" th:if="${#fields.hasErrors('orderDto.service')}" th:errors="*{orderDto.service}"></label>
+                            </div>
+
+
+                            <div class="container-login100-form-btn m-t-17">
+                                <button class="login100-form-btn" type="submit" th:text="#{order.button}">
+                                </button>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+<!-- Footer -->
+<footer class="bg-light footer">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-4">
+                <span class="copyright">Copyright &copy; Guitar Service 2020</span>
+            </div>
+            <div class="col-md-4">
+                <ul class="list-inline social-buttons">
+                    <li class="list-inline-item">
+                        <a href="#">
+                            <i class="fab fa-twitter"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                    </li>
+                    <li class="list-inline-item">
+                        <a href="#">
+                            <i class="fab fa-linkedin-in"></i>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+            <div class="col-md-4">
+                <ul class="list-inline quicklinks">
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+
+<!-- Bootstrap core JavaScript -->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+<!-- Plugin JavaScript -->
+<script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
+
+<!-- Contact form JavaScript -->
+<script th:src="@{/js/jqBootstrapValidation.js}"></script>
+<script th:src="@{/js/contact_me.js}"></script>
+
+
+</body>
+
+</html>
