@@ -35,7 +35,7 @@ public class UserController {
 
     @GetMapping("/")
     public String main() {
-        return INDEX;
+        return INDEX_PAGE;
     }
 
     @GetMapping("/login")
@@ -43,7 +43,7 @@ public class UserController {
         if (Objects.nonNull(loggedUser)) {
             modelAndView.setViewName(REDIRECT + HOME_PAGE);
         } else {
-            modelAndView.setViewName(LOGIN);
+            modelAndView.setViewName(LOGIN_PAGE);
         }
 
         return modelAndView;
@@ -55,7 +55,7 @@ public class UserController {
             modelAndView.setViewName(REDIRECT + HOME_PAGE);
         } else {
             modelAndView.addObject(ATTR_NAME_USER, new UserDto());
-            modelAndView.setViewName(REGISTER);
+            modelAndView.setViewName(REGISTER_PAGE);
         }
 
         return modelAndView;
@@ -68,13 +68,13 @@ public class UserController {
 
         if (bindingResult.hasErrors()) {
             modelAndView.addObject(ATTR_NAME_ERROR_MESSAGE, "register.error");
-            modelAndView.setViewName(REGISTER);
+            modelAndView.setViewName(REGISTER_PAGE);
             return modelAndView;
         }
 
         if (!Objects.equals(userDto.getPassword(), passwordConfirmation)) {
             modelAndView.addObject(ATTR_NAME_CONFIRMATION_ERROR, true);
-            modelAndView.setViewName(REGISTER);
+            modelAndView.setViewName(REGISTER_PAGE);
             return modelAndView;
 
         }
@@ -83,7 +83,7 @@ public class UserController {
         userService.register(userDto);
 
         redirectAttributes.addFlashAttribute(ATTR_NAME_SUCCESS_MESSAGE, "login.just.registered");
-        modelAndView.setViewName(REDIRECT + LOGIN);
+        modelAndView.setViewName(REDIRECT + LOGIN_PAGE);
 
         return modelAndView;
     }
@@ -91,7 +91,7 @@ public class UserController {
     @GetMapping("/login-error")
     public ModelAndView loginError(ModelAndView modelAndView, RedirectAttributes redirectAttributes) {
         redirectAttributes.addFlashAttribute("errorMessage", "login.error");
-        modelAndView.setViewName(REDIRECT + LOGIN);
+        modelAndView.setViewName(REDIRECT + LOGIN_PAGE);
 
         return modelAndView;
     }
@@ -99,7 +99,7 @@ public class UserController {
     @GetMapping("/profile")
     public ModelAndView profile(@AuthenticationPrincipal UserDto userDto, ModelAndView modelAndView) {
         modelAndView.addObject(ATTR_NAME_USER, userDto);
-        modelAndView.setViewName(PROFILE);
+        modelAndView.setViewName(PROFILE_PAGE);
 
         return modelAndView;
     }
@@ -109,8 +109,8 @@ public class UserController {
                                 ModelAndView modelAndView) {
 
         Page<ReviewDto> reviews = reviewService.findAll(pageable);
-        modelAndView.setViewName(REVIEWS);
-        modelAndView.addObject(ATTR_NAME_PAGE, reviews);
+        modelAndView.setViewName(REVIEWS_PAGE);
+        modelAndView.addObject(ATTR_NAME_REVIEWS, reviews);
 
         return modelAndView;
     }
