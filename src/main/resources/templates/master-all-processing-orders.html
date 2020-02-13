@@ -38,9 +38,8 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h2 class="section-heading text-uppercase" th:text="#{all.available.orders.title.body}"></h2>
-                <h3 class="section-subheading text-muted" th:text="#{all.available.orders.body.subtitle}"></h3>
-                <p th:if="${errorMessage != null}" class="text-danger" th:text="#{${errorMessage}}"></p>
+                <h2 class="section-heading text-uppercase" th:text="#{all.processing.orders.title.body}"></h2>
+                <h3 class="section-subheading text-muted" th:text="#{all.processing.orders.body.subtitle}"></h3>
 
                 <table class="table table-striped">
                     <thead>
@@ -56,7 +55,7 @@
 
                     <tr th:each="order: ${page.content}">
                         <td th:text="${order.getId()}"></td>
-                            <td th:text="${#temporals.format(order.getDateTime(), 'dd MMMM yyyy, HH:mm')}"></td>
+                        <td th:text="${#temporals.format(order.getDateTime(), 'dd MMMM yyyy, HH:mm')}"></td>
                         <td th:text="${#objects.nullSafe(order.getClient().getName(), '')} + ' ' + ${#objects.nullSafe(order.getClient().getSurname(), '')}"></td>
                         <td th:text="${#objects.nullSafe(order.getInstrumentDto().getBrand(), '')}"></td>
                         <td th:text="${order.getService()}"></td>

@@ -8,11 +8,9 @@ import com.yura.repair.service.mapper.EntityMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Log4j
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -27,30 +25,9 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public List<ReviewDto> findAll(Pageable pageable) {
+    public Page<ReviewDto> findAll(Pageable pageable) {
         return reviewRepository
                 .findAll(pageable)
-                .stream()
-                .map(reviewMapper::mapEntityToDto)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<ReviewDto> findByOrder(Integer orderId, Pageable pageable) {
-        return reviewRepository
-                .findAllByOrderId(orderId, pageable)
-                .stream()
-                .map(reviewMapper::mapEntityToDto)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public long numberOfEntries() {
-        return reviewRepository.count();
-    }
-
-    @Override
-    public long numberOfEntriesByOrder(Integer orderId) {
-        return reviewRepository.countByOrderId(orderId);
+                .map(reviewMapper::mapEntityToDto);
     }
 }

@@ -1298,6 +1298,18 @@ textarea.input100 {
   padding-left:2px;
 }
 
+.blockquote h5 {
+  position: relative;
+  color: #212529;
+  font-size: 13px;
+  font-weight: 400;
+  line-height: 1.2;
+  padding-top: 2px;
+  z-index: 1;
+  margin-left:20px;
+  padding-left:2px;
+}
+
 
 .blockquote h4:first-letter {
   margin-left:-12px;
@@ -1341,6 +1353,9 @@ textarea.input100 {
   font-size: 14px;
 }
 
+.pagination {
+  padding-top: 15px;;
+}
 
 
 /*//////////////////////////////////////////////////////////////////

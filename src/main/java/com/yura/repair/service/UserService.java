@@ -12,6 +12,4 @@ public interface UserService extends UserDetailsService {
     void register(UserDto userDto);
 
     Page<UserDto> findAll(Pageable pageable);
-
-    long numberOfEntries();
 }

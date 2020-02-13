@@ -54,8 +54,4 @@ public class UserServiceImpl implements UserService {
                 .orElseThrow(() -> new EntityNotFoundException("User not found with provided email " + email));
     }
 
-    @Override
-    public long numberOfEntries() {
-        return userRepository.count();
-    }
 }

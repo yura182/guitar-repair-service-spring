@@ -20,6 +20,7 @@ public class ReviewMapper implements EntityMapper<ReviewEntity, ReviewDto> {
                 .id(entity.getId())
                 .client(userMapper.mapEntityToDto(entity.getClient()))
                 .orderDto(orderMapper.mapEntityToDto(entity.getOrder()))
+                .date(entity.getDate())
                 .text(entity.getText())
                 .build();
     }
@@ -30,6 +31,7 @@ public class ReviewMapper implements EntityMapper<ReviewEntity, ReviewDto> {
                 .id(dto.getId())
                 .client(userMapper.mapDtoToEntity(dto.getClient()))
                 .order(orderMapper.mapDtoToEntity(dto.getOrderDto()))
+                .date(dto.getDate())
                 .text(dto.getText())
                 .build();
     }

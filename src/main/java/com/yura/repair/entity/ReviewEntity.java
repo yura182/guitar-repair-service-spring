@@ -4,8 +4,10 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.CreatedDate;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
@@ -27,6 +29,10 @@ public class ReviewEntity {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id", nullable = false)
     private OrderEntity order;
+
+    @CreatedDate
+    @Column(name = "date", nullable = false)
+    private LocalDateTime date;
 
     @Column(name = "text", nullable = false)
     private String text;

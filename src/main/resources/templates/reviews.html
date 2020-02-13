@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
@@ -8,7 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="Yriy Petrashenko">
 
-    <title th:text="#{all.orders.title}"></title>
+    <title th:text="#{reviews.title}"></title>
 
     <!-- Bootstrap core CSS -->
     <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
@@ -38,34 +38,16 @@
     <div class="container">
         <div class="row">
             <div class="col-lg-12 text-center">
-                <h2 class="section-heading text-uppercase" th:text="#{all.available.orders.title.body}"></h2>
-                <h3 class="section-subheading text-muted" th:text="#{all.available.orders.body.subtitle}"></h3>
-                <p th:if="${errorMessage != null}" class="text-danger" th:text="#{${errorMessage}}"></p>
+                <h2 class="section-heading text-uppercase" th:text="#{review.title.body}"></h2>
+                <h3 class="section-subheading text-muted" th:text="#{review.body.subtitle}"></h3>
 
-                <table class="table table-striped">
-                    <thead>
-                    <th><span class="profile-header" th:text="#{user.orders.table.id}"></span></th>
-                    <th><span class="profile-header" th:text="#{user.orders.table.date}"></span></th>
-                    <th><span class="profile-header" th:text="#{all.orders.table.client.name}"></span></th>
-                    <th><span class="profile-header" th:text="#{user.orders.table.instrument.brand}"></span></th>
-                    <th><span class="profile-header" th:text="#{user.orders.table.service}"></span></th>
-                    <th><span class="profile-header" th:text="#{user.orders.table.status}"></span></th>
-                    <th><span class="profile-header" ></span></th>
-                    </thead>
-                    <tbody>
-
-                    <tr th:each="order: ${page.content}">
-                        <td th:text="${order.getId()}"></td>
-                            <td th:text="${#temporals.format(order.getDateTime(), 'dd MMMM yyyy, HH:mm')}"></td>
-                        <td th:text="${#objects.nullSafe(order.getClient().getName(), '')} + ' ' + ${#objects.nullSafe(order.getClient().getSurname(), '')}"></td>
-                        <td th:text="${#objects.nullSafe(order.getInstrumentDto().getBrand(), '')}"></td>
-                        <td th:text="${order.getService()}"></td>
-                        <td th:text="#{${order.getStatus().getLocaleDescription()}}"></td>
-                        <td>
-                            <a class="details-link" th:href="@{/master/order/{orderId}(orderId = ${order.getId()})}" th:text="#{user.orders.details}"></a>
-                    </tr>
-                    </tbody>
-                </table>
+                <div class="blockquote-wrapper" th:each="review : ${page}">
+                    <div class="blockquote">
+                        <h1 th:text="${review.text}"></h1>
+                        <h4 th:text="'&mdash; ' + ${review.client.name} + ' ' + ${review.client.surname}"></h4>
+                        <h5><em th:text="${#temporals.format(review.getDate(), 'dd MMMM yyyy, HH:mm')}"></em></h5>
+                    </div>
+                </div>
                 <div th:replace="paginating :: paginating"></div>
             </div>
         </div>

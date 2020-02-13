@@ -1,11 +1,16 @@
 package com.yura.repair.controller;
 
+import com.yura.repair.dto.ReviewDto;
 import com.yura.repair.dto.UserDto;
 import com.yura.repair.entity.Role;
-import com.yura.repair.service.OrderService;
+import com.yura.repair.service.ReviewService;
 import com.yura.repair.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
@@ -23,6 +28,7 @@ import java.util.Objects;
 @Controller
 public class UserController {
     private final UserService userService;
+    private final ReviewService reviewService;
 
     @GetMapping("/")
     public String main() {
@@ -90,6 +96,17 @@ public class UserController {
     public ModelAndView profile(@AuthenticationPrincipal UserDto userDto, ModelAndView modelAndView) {
         modelAndView.addObject("user", userDto);
         modelAndView.setViewName("profile");
+
+        return modelAndView;
+    }
+
+    @GetMapping("/reviews")
+    public ModelAndView reviews(@PageableDefault(size = 4, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+                                ModelAndView modelAndView) {
+
+        Page<ReviewDto> reviews = reviewService.findAll(pageable);
+        modelAndView.setViewName("reviews");
+        modelAndView.addObject("page", reviews);
 
         return modelAndView;
     }

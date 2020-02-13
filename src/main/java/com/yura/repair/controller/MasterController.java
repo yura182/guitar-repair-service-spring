@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 @Log4j
 @AllArgsConstructor(onConstructor = @__(@Autowired))
@@ -29,7 +30,7 @@ import javax.validation.constraints.NotNull;
 public class MasterController {
     private final OrderService orderService;
 
-    @GetMapping("/master/orders")
+    @GetMapping("/master/available-orders")
     public ModelAndView allOrders(@PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
                                   ModelAndView modelAndView) {
 
@@ -48,7 +49,7 @@ public class MasterController {
 
         OrderDto orderDto = orderService.findById(orderId);
 
-        if (orderDto.getStatus() != Status.ACCEPTED || !orderDto.getMaster().getId().equals(loggedMaster.getId())) {
+        if (checkAccessToOrder(loggedMaster, orderDto)) {
             modelAndView.setViewName("404");
 
             return modelAndView;
@@ -62,15 +63,16 @@ public class MasterController {
 
     @PostMapping("/master/process-order")
     public ModelAndView processOrder(@RequestParam(name = "orderId") @NotNull Integer orderId,
-                                    @AuthenticationPrincipal UserDto master,
+                                     @AuthenticationPrincipal UserDto master,
                                      ModelAndView modelAndView, RedirectAttributes redirectAttributes) {
-        modelAndView.setViewName("redirect:/master/order/" + orderId);
 
         try {
             orderService.processOrder(orderId, master);
+            modelAndView.setViewName("redirect:/master/order/" + orderId);
             redirectAttributes.addFlashAttribute("successMessage", "process.success");
         } catch (OrderAlreadyUpdatedException e) {
             log.warn("Order's already processed by another master", e);
+            modelAndView.setViewName("redirect:/master/available-orders");
             redirectAttributes.addFlashAttribute("errorMessage", "process.error");
         }
 
@@ -87,5 +89,21 @@ public class MasterController {
         redirectAttributes.addFlashAttribute("successMessage", "complete.success");
 
         return modelAndView;
+    }
+
+    @GetMapping("/master/orders")
+    public ModelAndView processingOrders(@PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
+                                         @AuthenticationPrincipal UserDto loggedMaster,  ModelAndView modelAndView) {
+
+        Page<OrderDto> orders = orderService.findByMaster(loggedMaster.getId(), pageable);
+
+        modelAndView.setViewName("master-all-processing-orders");
+        modelAndView.addObject("page", orders);
+
+        return modelAndView;
+    }
+
+    private boolean checkAccessToOrder(UserDto loggedMaster, OrderDto orderDto) {
+        return Objects.nonNull(orderDto.getMaster()) && !orderDto.getMaster().getId().equals(loggedMaster.getId());
     }
 }

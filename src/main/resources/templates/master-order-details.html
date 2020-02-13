@@ -66,10 +66,6 @@
                         <td th:text="${order?.client?.phone}"></td>
                     </tr>
                     <tr>
-                        <td><span class="profile-header" th:text="#{all.orders.table.master.name}"></span></td>
-                        <td th:text="${order?.master?.name} + ' ' + ${order?.master?.surname}"></td>
-                    </tr>
-                    <tr>
                         <td><span class="profile-header" th:text="#{user.orders.table.instrument.brand}"></span></td>
                         <td th:text="${order?.instrumentDto?.brand}"></td>
                     </tr>
