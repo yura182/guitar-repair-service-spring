@@ -30,4 +30,11 @@ public class ReviewServiceImpl implements ReviewService {
                 .findAll(pageable)
                 .map(reviewMapper::mapEntityToDto);
     }
+
+    @Override
+    public void delete(ReviewDto reviewDto) {
+        reviewRepository.delete(reviewMapper.mapDtoToEntity(reviewDto));
+    }
+
+
 }

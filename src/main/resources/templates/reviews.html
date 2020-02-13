@@ -40,6 +40,8 @@
             <div class="col-lg-12 text-center">
                 <h2 class="section-heading text-uppercase" th:text="#{review.title.body}"></h2>
                 <h3 class="section-subheading text-muted" th:text="#{review.body.subtitle}"></h3>
+                <p th:if="${successMessage != null}" class="text-success" th:text="#{${successMessage}}"></p>
+
 
                 <div class="blockquote-wrapper" th:each="review : ${page}">
                     <div class="blockquote">
@@ -48,7 +50,7 @@
                             <div class="info-left">
                                 <a class="details-link"
                                    th:href="@{/admin/order/{orderId}(orderId = ${review.getOrderDto().getId()})}"
-                                   th:text="'Order id ' + ${review.getOrderDto().getId()}"></a>
+                                   th:text="#{order.title} + ' №' + ${review.getOrderDto().getId()}"></a>
                             </div>
 
                             <div class="info-right">

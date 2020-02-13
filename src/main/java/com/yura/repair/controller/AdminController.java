@@ -1,8 +1,10 @@
 package com.yura.repair.controller;
 
 import com.yura.repair.dto.OrderDto;
+import com.yura.repair.dto.ReviewDto;
 import com.yura.repair.dto.UserDto;
 import com.yura.repair.service.OrderService;
+import com.yura.repair.service.ReviewService;
 import com.yura.repair.service.UserService;
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,6 +28,7 @@ import javax.validation.constraints.NotNull;
 public class AdminController {
     private final UserService userService;
     private final OrderService orderService;
+    private final ReviewService reviewService;
 
     @GetMapping("/admin/users")
     public ModelAndView allUsers(@PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
@@ -41,7 +44,7 @@ public class AdminController {
 
     @GetMapping("/admin/orders")
     public ModelAndView allOrders(@PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
-                                  ModelAndView modelAndView ) {
+                                  ModelAndView modelAndView) {
 
         Page<OrderDto> orders = orderService.findAll(pageable);
 
@@ -83,6 +86,17 @@ public class AdminController {
 
         modelAndView.setViewName("redirect:/admin/order/" + orderId);
         redirectAttributes.addFlashAttribute("successMessage", "reject.success");
+
+        return modelAndView;
+    }
+
+    @PostMapping("admin/delete-review")
+    public ModelAndView deleteReview(@RequestParam(name = "reviewId") @NotNull Integer reviewId,
+                                     ModelAndView modelAndView, RedirectAttributes redirectAttributes) {
+        reviewService.delete(ReviewDto.builder().id(reviewId).build());
+
+        modelAndView.setViewName("redirect:/reviews?page=0&size=4");
+        redirectAttributes.addFlashAttribute("successMessage", "all.reviews.delete.success");
 
         return modelAndView;
     }

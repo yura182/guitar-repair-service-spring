@@ -11,4 +11,6 @@ public interface ReviewService {
     void add(ReviewDto reviewDto);
 
     Page<ReviewDto> findAll(Pageable pageable);
+
+    void delete(ReviewDto reviewDto);
 }
