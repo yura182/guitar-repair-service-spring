@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
 
 <head>
 
@@ -43,6 +43,25 @@
 
                 <div class="blockquote-wrapper" th:each="review : ${page}">
                     <div class="blockquote">
+
+                        <div class="review-admin-info-wrapper" sec:authorize="hasAuthority('ADMIN')">
+                            <div class="info-left">
+                                <a class="details-link"
+                                   th:href="@{/admin/order/{orderId}(orderId = ${review.getOrderDto().getId()})}"
+                                   th:text="'Order id ' + ${review.getOrderDto().getId()}"></a>
+                            </div>
+
+                            <div class="info-right">
+                                <form method="post" th:action="@{/admin/delete-review}">
+                                    <input type="hidden" name="reviewId" th:value="${review.getId()}"/>
+
+                                    <button type="submit" name="submit" value="value" class="link-button"
+                                            th:text="#{reviews.delete}"></button>
+                                </form>
+                            </div>
+
+                        </div>
+
                         <h1 th:text="${review.text}"></h1>
                         <h4 th:text="'&mdash; ' + ${review.client.name} + ' ' + ${review.client.surname}"></h4>
                         <h5><em th:text="${#temporals.format(review.getDate(), 'dd MMMM yyyy, HH:mm')}"></em></h5>
