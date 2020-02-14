@@ -47,12 +47,12 @@
             <div class="limiter">
                 <div class="container-login100">
                     <div class="wrap-login100 p-t-50 p-b-90">
-                        <form class="login100-form validate-form flex-sb flex-w" th:object="${user}"
+                        <form class="login100-form validate-form flex-sb flex-w" th:object="${userDto}"
                               th:action="@{/register}" method="post">
 
                             <div class="wrap-input100 validate-input m-b-16" data-validate="Name is required">
                                 <input class="input100" type="text" th:filed="*{name}" name="name"
-
+                                       pattern="[a-zA-Zа-яА-Яієї']{2,25}"
                                        th:placeholder="#{registration.field.name}" required
                                        th:title="#{registration.name.error}">
                                 <span class="focus-input100"></span>
@@ -132,23 +132,7 @@
                 <span class="copyright">Copyright &copy; Guitar Service 2020</span>
             </div>
             <div class="col-md-4">
-                <ul class="list-inline social-buttons">
-                    <li class="list-inline-item">
-                        <a href="#">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                    </li>
-                    <li class="list-inline-item">
-                        <a href="#">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                    </li>
-                    <li class="list-inline-item">
-                        <a href="#">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                    </li>
-                </ul>
+                <img th:src="@{/img/brands.jpg}">
             </div>
             <div class="col-md-4">
                 <ul class="list-inline quicklinks">

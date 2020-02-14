@@ -52,41 +52,41 @@
                               method="post">
 
                             <div class="wrap-input100 validate-input m-b-16" data-validate="Brand is required">
-                                <input class="input100" type="text" th:filed="*{instrument.brand}" name="brand"
+                                <input class="input100" type="text" th:filed="*{instrumentDto.brand}" name="brand"
                                        th:placeholder="#{order.field.brand}" required th:title="#{order.brand.error}">
                                 <span class="focus-input100"></span>
-                                <label class="text-danger-form" th:if="${#fields.hasErrors('instrument.brand')}"
-                                       th:errors="*{instrument.brand}"></label>
+                                <label class="text-danger-form" th:if="${#fields.hasErrors('instrumentDto.brand')}"
+                                       th:errors="*{instrumentDto.brand}"></label>
                             </div>
 
                             <div class="wrap-input100 validate-input m-b-16" data-validate="Model is required">
-                                <input class="input100" type="text" th:filed="*{instrument.model}" name="model"
+                                <input class="input100" type="text" th:filed="*{instrumentDto.model}" name="model"
                                        th:placeholder="#{order.field.model}" required th:title="#{order.model.error}">
                                 <span class="focus-input100"></span>
-                                <label class="text-danger-form" th:if="${#fields.hasErrors('instrument.model')}"
-                                       th:errors="*{instrument.model}"></label>
+                                <label class="text-danger-form" th:if="${#fields.hasErrors('instrumentDto.model')}"
+                                       th:errors="*{instrumentDto.model}"></label>
                             </div>
 
                             <div class="wrap-input100 validate-input m-b-16"
                                  data-validate="Manufacture year is required">
-                                <input class="input100" type="text" th:filed="*{instrument.manufactureYear}"
+                                <input class="input100" type="text" th:filed="*{instrumentDto.manufactureYear}"
                                        name="manufactureYear"
                                        th:placeholder="#{order.field.manufactureYear}"
                                        th:title="#{order.manufactureYear.error}">
                                 <span class="focus-input100"></span>
                                 <label class="text-danger-form"
-                                       th:if="${#fields.hasErrors('instrument.manufactureYear')}"
-                                       th:errors="*{instrument.manufactureYear}"></label>
+                                       th:if="${#fields.hasErrors('instrumentDto.manufactureYear')}"
+                                       th:errors="*{instrumentDto.manufactureYear}"></label>
                             </div>
 
 
                             <div class="wrap-input100 validate-input m-b-16" data-validate="Service is required">
-                                <textarea class="input100" type="text" th:filed="*{order.service}" name="service"
+                                <textarea class="input100" type="text" th:filed="*{orderDto.service}" name="service"
                                           th:placeholder="#{order.field.service}" required
                                           th:title="#{order.service.error}"></textarea>
                                 <span class="focus-input100"></span>
-                                <label class="text-danger-form" th:if="${#fields.hasErrors('order.service')}"
-                                       th:errors="*{order.service}"></label>
+                                <label class="text-danger-form" th:if="${#fields.hasErrors('orderDto.service')}"
+                                       th:errors="*{orderDto.service}"></label>
                             </div>
 
 
@@ -112,23 +112,7 @@
                 <span class="copyright">Copyright &copy; Guitar Service 2020</span>
             </div>
             <div class="col-md-4">
-                <ul class="list-inline social-buttons">
-                    <li class="list-inline-item">
-                        <a href="#">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                    </li>
-                    <li class="list-inline-item">
-                        <a href="#">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                    </li>
-                    <li class="list-inline-item">
-                        <a href="#">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                    </li>
-                </ul>
+                <img th:src="@{/img/brands.jpg}">
             </div>
             <div class="col-md-4">
                 <ul class="list-inline quicklinks">
