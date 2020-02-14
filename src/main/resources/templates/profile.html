@@ -45,23 +45,23 @@
                     <tbody>
                     <tr>
                         <td><span class="profile-header" th:text="#{profile.name}"></span></td>
-                        <td th:text="${userDto.getName()}"></td>
+                        <td th:text="${user.getName()}"></td>
                     </tr>
                     <tr>
                         <td><span class="profile-header" th:text="#{profile.surname}"></span></td>
-                        <td th:text="${userDto.getSurname()}"></td>
+                        <td th:text="${user.getSurname()}"></td>
                     </tr>
                     <tr>
                         <td><span class="profile-header" th:text="#{profile.email}"></span></td>
-                        <td th:text="${userDto.getEmail()}"></td>
+                        <td th:text="${user.getEmail()}"></td>
                     </tr>
                     <tr>
                         <td><span class="profile-header" th:text="#{profile.phone}"></span></td>
-                        <td th:text="${userDto.getPhone()}"></td>
+                        <td th:text="${user.getPhone()}"></td>
                     </tr>
                     <tr>
                         <td><span class="profile-header" th:text="#{profile.role}"></span></td>
-                        <td th:text="#{${userDto.getRole().getLocaleDescription()}}"></td>
+                        <td th:text="#{${user.getRole().getLocaleDescription()}}"></td>
                     </tr>
                     </tbody>
                 </table>

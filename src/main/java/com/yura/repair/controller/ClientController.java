@@ -28,9 +28,16 @@ import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import java.time.LocalDateTime;
 
+import static com.yura.repair.constant.AttributeName.*;
+import static com.yura.repair.constant.PageUrl.*;
+
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 @Controller
 public class ClientController {
+    private static final String ORDER_ERROR_MESSAGE = "order.error";
+    private static final String ORDER_SUCCESS_MESSAGE = "order.success";
+    private static final String ADD_REVIEW_SUCCESS_MESSAGE = "user.order.details.review.success";
+
     private final OrderService orderService;
     private final ReviewService reviewService;
 
@@ -40,8 +47,8 @@ public class ClientController {
 
         Page<OrderDto> orders = orderService.findByClient(clientDto.getId(), pageable);
 
-        modelAndView.setViewName("client-orders");
-        modelAndView.addObject("page", orders);
+        modelAndView.setViewName(CLIENT_ORDERS_PAGE);
+        modelAndView.addObject(ATTR_NAME_PAGE, orders);
 
         return modelAndView;
     }
@@ -53,20 +60,20 @@ public class ClientController {
         OrderDto orderDto = orderService.findById(orderId);
 
         if (!orderDto.getClient().getId().equals(loggedUser.getId())) {
-            modelAndView.setViewName("404");
+            modelAndView.setViewName(ERROR_PAGE);
         }
 
-        modelAndView.addObject("order", orderDto);
-        modelAndView.setViewName("client-order-details");
+        modelAndView.addObject(ATTR_NAME_ORDER, orderDto);
+        modelAndView.setViewName(CLIENT_ORDER_DETAILS_PAGE);
 
         return modelAndView;
     }
 
     @GetMapping("/client/add-order")
     public ModelAndView register(ModelAndView modelAndView) {
-        modelAndView.addObject("instrumentDto", new InstrumentDto());
-        modelAndView.addObject("orderDto", new OrderDto());
-        modelAndView.setViewName("client-add-order");
+        modelAndView.addObject(ATTR_NAME_INSTRUMENT, new InstrumentDto());
+        modelAndView.addObject(ATTR_NAME_ORDER, new OrderDto());
+        modelAndView.setViewName(CLIENT_ADD_ORDER_PAGE);
 
         return modelAndView;
     }
@@ -78,8 +85,8 @@ public class ClientController {
                                   ModelAndView modelAndView, RedirectAttributes redirectAttributes) {
 
         if (instrumentResult.hasErrors() || orderResult.hasErrors()) {
-            modelAndView.setViewName("client-add-order");
-            modelAndView.addObject("errorMessage", "order.error");
+            modelAndView.setViewName(CLIENT_ADD_ORDER_PAGE);
+            modelAndView.addObject(ATTR_NAME_ERROR, ORDER_ERROR_MESSAGE);
             return modelAndView;
         }
 
@@ -90,8 +97,8 @@ public class ClientController {
 
         orderService.add(orderDto);
 
-        modelAndView.setViewName("redirect:/client/add-order");
-        redirectAttributes.addFlashAttribute("successMessage", "order.success");
+        modelAndView.setViewName(REDIRECT + CLIENT_ADD_ORDER_PATH);
+        redirectAttributes.addFlashAttribute(ATTR_NAME_SUCCESS, ORDER_SUCCESS_MESSAGE);
 
         return modelAndView;
     }
@@ -111,8 +118,8 @@ public class ClientController {
 
         reviewService.add(review);
 
-        modelAndView.setViewName("redirect:/client/order/" + orderId);
-        redirectAttributes.addFlashAttribute("successMessage", "user.order.details.review.success");
+        modelAndView.setViewName(REDIRECT + CLIENT_ORDER_PATH + orderId);
+        redirectAttributes.addFlashAttribute(ATTR_NAME_SUCCESS, ADD_REVIEW_SUCCESS_MESSAGE);
 
         return modelAndView;
     }

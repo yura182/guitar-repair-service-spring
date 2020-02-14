@@ -23,9 +23,16 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 
+import static com.yura.repair.constant.AttributeName.*;
+import static com.yura.repair.constant.PageUrl.*;
+
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 @Controller
 public class AdminController {
+    private static final String ACCEPT_SUCCESS_MESSAGE = "accept.success";
+    private static final String REJECT_SUCCESS_MESSAGE = "reject.success";
+    private static final String DELETE_SUCCESS_MESSAGE = "all.reviews.delete.success";
+
     private final UserService userService;
     private final OrderService orderService;
     private final ReviewService reviewService;
@@ -36,8 +43,8 @@ public class AdminController {
 
         Page<UserDto> users = userService.findAll(pageable);
 
-        modelAndView.setViewName("admin-all-users");
-        modelAndView.addObject("page", users);
+        modelAndView.setViewName(ADMIN_ALL_USERS_PAGE);
+        modelAndView.addObject(ATTR_NAME_PAGE, users);
 
         return modelAndView;
     }
@@ -48,18 +55,19 @@ public class AdminController {
 
         Page<OrderDto> orders = orderService.findAll(pageable);
 
-        modelAndView.setViewName("admin-all-orders");
-        modelAndView.addObject("page", orders);
+        modelAndView.setViewName(ADMIN_ALL_ORDERS_PAGE);
+        modelAndView.addObject(ATTR_NAME_PAGE, orders);
 
         return modelAndView;
+
     }
 
     @GetMapping("/admin/order/{orderId}")
     public ModelAndView adminOrderDetails(@PathVariable("orderId") Integer orderId, ModelAndView modelAndView) {
         OrderDto orderDto = orderService.findById(orderId);
 
-        modelAndView.setViewName("admin-order-details");
-        modelAndView.addObject("order", orderDto);
+        modelAndView.setViewName(ADMIN_ORDER_DETAILS_PAGE);
+        modelAndView.addObject(ATTR_NAME_ORDER, orderDto);
 
         return modelAndView;
     }
@@ -71,11 +79,12 @@ public class AdminController {
 
         orderService.acceptOrder(orderId, price);
 
-        modelAndView.setViewName("redirect:/admin/order/" + orderId);
-        redirectAttributes.addFlashAttribute("successMessage", "accept.success");
+        modelAndView.setViewName(REDIRECT + ADMIN_ORDER_PATH + orderId);
+        redirectAttributes.addFlashAttribute(ATTR_NAME_SUCCESS, ACCEPT_SUCCESS_MESSAGE);
 
         return modelAndView;
     }
+
 
     @PostMapping("/admin/reject-order")
     public ModelAndView acceptOrder(@RequestParam(name = "orderId") @NotNull Integer orderId,
@@ -84,8 +93,8 @@ public class AdminController {
 
         orderService.rejectOrder(orderId, rejectionReason);
 
-        modelAndView.setViewName("redirect:/admin/order/" + orderId);
-        redirectAttributes.addFlashAttribute("successMessage", "reject.success");
+        modelAndView.setViewName(REDIRECT + ADMIN_ORDER_PATH + orderId);
+        redirectAttributes.addFlashAttribute(ATTR_NAME_SUCCESS, REJECT_SUCCESS_MESSAGE);
 
         return modelAndView;
     }
@@ -95,8 +104,8 @@ public class AdminController {
                                      ModelAndView modelAndView, RedirectAttributes redirectAttributes) {
         reviewService.delete(ReviewDto.builder().id(reviewId).build());
 
-        modelAndView.setViewName("redirect:/reviews?page=0&size=4");
-        redirectAttributes.addFlashAttribute("successMessage", "all.reviews.delete.success");
+        modelAndView.setViewName(REDIRECT + REVIEWS_PATH);
+        redirectAttributes.addFlashAttribute(ATTR_NAME_SUCCESS, DELETE_SUCCESS_MESSAGE);
 
         return modelAndView;
     }
