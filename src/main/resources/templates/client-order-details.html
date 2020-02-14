@@ -46,54 +46,54 @@
                     <tbody>
                     <tr>
                         <td><span class="profile-header" th:text="#{user.orders.table.id}"></span></td>
-                        <td th:text="${order.getId()}"></td>
+                        <td th:text="${orderDto.getId()}"></td>
                     </tr>
                     <tr>
                         <td><span class="profile-header" th:text="#{user.orders.table.date}"></span></td>
-                        <td th:text="${#temporals.format(order.getDateTime(), 'dd MMMM yyyy, HH:mm')}"></td>
+                        <td th:text="${#temporals.format(orderDto.getDateTime(), 'dd MMMM yyyy, HH:mm')}"></td>
                     </tr>
-                    <tr th:if="${order.getMaster() != null}">
+                    <tr th:if="${orderDto.getMaster() != null}">
                         <td><span class="profile-header" th:text="#{all.orders.table.master.name}"></span></td>
-                        <td th:text="${order?.master?.name} + ' ' + ${order?.master?.surname}"></td>
+                        <td th:text="${orderDto?.master?.name} + ' ' + ${orderDto?.master?.surname}"></td>
                     </tr>
                     <tr>
                         <td><span class="profile-header" th:text="#{user.orders.table.instrument.brand}"></span></td>
-                        <td th:text="${order?.instrumentDto?.brand}"></td>
+                        <td th:text="${orderDto?.instrumentDto?.brand}"></td>
                     </tr>
                     <tr>
                         <td><span class="profile-header" th:text="#{user.orders.table.instrument.model}"></span></td>
-                        <td th:text="${order?.instrumentDto?.model}"></td>
+                        <td th:text="${orderDto?.instrumentDto?.model}"></td>
                     </tr>
                     <tr>
                         <td><span class="profile-header" th:text="#{user.orders.table.instrument.year}"></span></td>
-                        <td th:text="${order?.instrumentDto?.manufactureYear}"></td>
+                        <td th:text="${orderDto?.instrumentDto?.manufactureYear}"></td>
                     </tr>
                     <tr>
                         <td><span class="profile-header" th:text="#{user.orders.table.service}"></span></td>
-                        <td th:text="${order.getService()}"></td>
+                        <td th:text="${orderDto.getService()}"></td>
                     </tr>
-                    <tr th:if="${order.getPrice() != null}">
+                    <tr th:if="${orderDto.getPrice() != null}">
                         <td><span class="profile-header" th:text="#{user.orders.table.price}"></span></td>
-                        <td>$<span th:text="${#numbers.formatDecimal(order.getPrice(), 1, 2)}"></span></td>
+                        <td>$<span th:text="${#numbers.formatDecimal(orderDto.getPrice(), 1, 2)}"></span></td>
                     </tr>
                     <tr>
                         <td><span class="profile-header" th:text="#{user.orders.table.status}"></span></td>
-                        <td th:text="#{${order.getStatus().getLocaleDescription()}}"></td>
+                        <td th:text="#{${orderDto.getStatus().getLocaleDescription()}}"></td>
                     </tr>
-                    <tr th:if="${!#strings.isEmpty(order.getRejectionReason())}">
+                    <tr th:if="${!#strings.isEmpty(orderDto.getRejectionReason())}">
                         <td><span class="profile-header" th:text="#{user.orders.table.rejection.reason}"></span></td>
-                        <td th:text="${order.getRejectionReason()}"></td>
+                        <td th:text="${orderDto.getRejectionReason()}"></td>
                     </tr>
                     </tbody>
                 </table>
 
-                <div class="row text-center" th:if="${order.getStatus().name() eq 'COMPLETED'}">
+                <div class="row text-center" th:if="${orderDto.getStatus().name() eq 'COMPLETED'}">
                     <div class="limiter">
                         <div class="container-login100">
                             <div class="wrap-login100 p-t-50 p-b-90">
                                 <form class="login100-form validate-form flex-sb flex-w"
                                       th:action="@{/client/leave-review}" method="post">
-                                    <input type="hidden" name="orderId" th:value="${order.getId()}">
+                                    <input type="hidden" name="orderId" th:value="${orderDto.getId()}">
 
                                     <div class="wrap-input100 validate-input m-b-16 " data-validate="Text is required">
                                         <label class="review-label">
@@ -127,23 +127,7 @@
                 <span class="copyright">Copyright &copy; Guitar Service 2020</span>
             </div>
             <div class="col-md-4">
-                <ul class="list-inline social-buttons">
-                    <li class="list-inline-item">
-                        <a href="#">
-                            <i class="fab fa-twitter"></i>
-                        </a>
-                    </li>
-                    <li class="list-inline-item">
-                        <a href="#">
-                            <i class="fab fa-facebook-f"></i>
-                        </a>
-                    </li>
-                    <li class="list-inline-item">
-                        <a href="#">
-                            <i class="fab fa-linkedin-in"></i>
-                        </a>
-                    </li>
-                </ul>
+                <img th:src="@{/img/brands.jpg}">
             </div>
             <div class="col-md-4">
                 <ul class="list-inline quicklinks">

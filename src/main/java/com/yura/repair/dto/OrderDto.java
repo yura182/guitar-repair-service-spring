@@ -6,7 +6,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
 @Data
@@ -20,7 +20,7 @@ public class OrderDto {
     private InstrumentDto instrumentDto;
     private LocalDateTime dateTime;
 
-    @NotEmpty(message = "Please enter service for your instrument")
+    @NotBlank(message = "Please enter service for your instrument")
     private String service;
 
     private Double price;
