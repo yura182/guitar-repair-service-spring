@@ -48,7 +48,7 @@ public class WebConfiguration implements WebMvcConfigurer {
     }
 
     @Bean
-    public Function<String, String> changeLanguage(){
+    public Function<String, String> changeLanguage() {
         return lang -> ServletUriComponentsBuilder.fromCurrentRequest().replaceQueryParam(lang).toUriString();
     }
 

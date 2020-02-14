@@ -100,7 +100,8 @@ public class OrderServiceImplTest {
 
     @Test
     public void findAllShouldReturnEmptyPage() {
-        Page<OrderDto> expected = Page.empty();;
+        Page<OrderDto> expected = Page.empty();
+        ;
         Page<OrderEntity> userEntities = Page.empty();
         Pageable pageable = PageRequest.of(1, 1);
 
@@ -179,7 +180,8 @@ public class OrderServiceImplTest {
 
         Page<OrderDto> actual = orderService.findByStatus(Status.ACCEPTED, pageable);
 
-        assertEquals(expected, actual);;
+        assertEquals(expected, actual);
+        ;
     }
 
     @Test
@@ -193,7 +195,8 @@ public class OrderServiceImplTest {
 
         Page<OrderDto> actual = orderService.findByStatus(Status.ACCEPTED, pageable);
 
-        assertEquals(expected, actual);;
+        assertEquals(expected, actual);
+        ;
     }
 
     @Test

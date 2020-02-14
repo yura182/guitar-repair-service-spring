@@ -93,7 +93,7 @@ public class MasterController {
 
     @GetMapping("/master/orders")
     public ModelAndView processingOrders(@PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
-                                         @AuthenticationPrincipal UserDto loggedMaster,  ModelAndView modelAndView) {
+                                         @AuthenticationPrincipal UserDto loggedMaster, ModelAndView modelAndView) {
 
         Page<OrderDto> orders = orderService.findByMaster(loggedMaster.getId(), pageable);
 

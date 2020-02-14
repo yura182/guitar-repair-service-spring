@@ -41,7 +41,7 @@ public class UserController {
     @GetMapping("/login")
     public ModelAndView login(ModelAndView modelAndView, Principal loggedUser) {
         if (Objects.nonNull(loggedUser)) {
-            modelAndView.setViewName(REDIRECT + HOME_PAGE);
+            modelAndView.setViewName(REDIRECT_HOME_PAGE);
         } else {
             modelAndView.setViewName(LOGIN_PAGE);
         }
@@ -52,7 +52,7 @@ public class UserController {
     @GetMapping("/register")
     public ModelAndView register(ModelAndView modelAndView, Principal loggedUser) {
         if (Objects.nonNull(loggedUser)) {
-            modelAndView.setViewName(REDIRECT + HOME_PAGE);
+            modelAndView.setViewName(REDIRECT_HOME_PAGE);
         } else {
             modelAndView.addObject(ATTR_NAME_USER, new UserDto());
             modelAndView.setViewName(REGISTER_PAGE);
@@ -69,14 +69,15 @@ public class UserController {
         if (bindingResult.hasErrors()) {
             modelAndView.addObject(ATTR_NAME_ERROR_MESSAGE, "register.error");
             modelAndView.setViewName(REGISTER_PAGE);
+
             return modelAndView;
         }
 
         if (!Objects.equals(userDto.getPassword(), passwordConfirmation)) {
             modelAndView.addObject(ATTR_NAME_CONFIRMATION_ERROR, true);
             modelAndView.setViewName(REGISTER_PAGE);
-            return modelAndView;
 
+            return modelAndView;
         }
 
         userDto.setRole(Role.CLIENT);

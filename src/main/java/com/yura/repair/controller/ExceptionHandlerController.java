@@ -8,8 +8,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.xml.ws.RequestWrapper;
-
 @ControllerAdvice
 public class ExceptionHandlerController {
 
@@ -22,6 +20,7 @@ public class ExceptionHandlerController {
     @ExceptionHandler(AlreadyRegisteredUserException.class)
     public ModelAndView handleAlreadyRegistered() {
         ModelAndView modelAndView = new ModelAndView("register");
+        
         modelAndView.addObject("errorMessage", "register.error.already.registered");
         modelAndView.addObject("userDto", new UserDto());
 

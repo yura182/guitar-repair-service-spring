@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
@@ -17,7 +17,8 @@
     <link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet'
+          type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
 
     <!-- Custom styles for this template -->
@@ -46,53 +47,67 @@
             <div class="limiter">
                 <div class="container-login100">
                     <div class="wrap-login100 p-t-50 p-b-90">
-                        <form class="login100-form validate-form flex-sb flex-w" th:object="${userDto}" th:action="@{/register}" method="post">
+                        <form class="login100-form validate-form flex-sb flex-w" th:object="${userDto}"
+                              th:action="@{/register}" method="post">
 
-                            <div class="wrap-input100 validate-input m-b-16" data-validate = "Name is required">
-                                <input class="input100" type="text" th:filed="*{name}"  name="name"
+                            <div class="wrap-input100 validate-input m-b-16" data-validate="Name is required">
+                                <input class="input100" type="text" th:filed="*{name}" name="name"
 
-                                       th:placeholder="#{registration.field.name}" required th:title="#{registration.name.error}">
+                                       th:placeholder="#{registration.field.name}" required
+                                       th:title="#{registration.name.error}">
                                 <span class="focus-input100"></span>
-                                <label class="text-danger-form" th:if="${#fields.hasErrors('name')}" th:errors="*{name}"></label>
+                                <label class="text-danger-form" th:if="${#fields.hasErrors('name')}"
+                                       th:errors="*{name}"></label>
                             </div>
 
-                            <div class="wrap-input100 validate-input m-b-16" data-validate = "Surname is required">
-                                <input class="input100" type="text" th:filed="*{surname}"  name="surname"
+                            <div class="wrap-input100 validate-input m-b-16" data-validate="Surname is required">
+                                <input class="input100" type="text" th:filed="*{surname}" name="surname"
                                        pattern="[a-zA-Zа-яА-Яієї']{2,25}"
-                                       th:placeholder="#{registration.field.surname}" required th:title="#{registration.surname.error}">
+                                       th:placeholder="#{registration.field.surname}" required
+                                       th:title="#{registration.surname.error}">
                                 <span class="focus-input100"></span>
-                                <label class="text-danger-form" th:if="${#fields.hasErrors('surname')}" th:errors="*{surname}"></label>
+                                <label class="text-danger-form" th:if="${#fields.hasErrors('surname')}"
+                                       th:errors="*{surname}"></label>
                             </div>
 
-                            <div class="wrap-input100 validate-input m-b-16" data-validate = "Email is required">
-                                <input class="input100" type="email" th:filed="*{email}"  name="email"
+                            <div class="wrap-input100 validate-input m-b-16" data-validate="Email is required">
+                                <input class="input100" type="email" th:filed="*{email}" name="email"
                                        pattern="^\w+\.?\w{1,}@\w+\.[a-z]{2,4}$"
-                                       th:placeholder="#{registration.field.email}" required th:title="#{registration.email.error}">
+                                       th:placeholder="#{registration.field.email}" required
+                                       th:title="#{registration.email.error}">
                                 <span class="focus-input100"></span>
-                                <label class="text-danger-form" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></label>
+                                <label class="text-danger-form" th:if="${#fields.hasErrors('email')}"
+                                       th:errors="*{email}"></label>
                             </div>
 
-                            <div class="wrap-input100 validate-input m-b-16" data-validate = "Password is required">
-                                <input class="input100" type="password" th:filed="*{password}"  name="password"
+                            <div class="wrap-input100 validate-input m-b-16" data-validate="Password is required">
+                                <input class="input100" type="password" th:filed="*{password}" name="password"
                                        pattern="[A-Za-z0-9]{8,}"
-                                       th:placeholder="#{registration.field.password}" required th:title="#{registration.password.error}">
+                                       th:placeholder="#{registration.field.password}" required
+                                       th:title="#{registration.password.error}">
                                 <span class="focus-input100"></span>
-                                <label class="text-danger-form" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></label>
+                                <label class="text-danger-form" th:if="${#fields.hasErrors('password')}"
+                                       th:errors="*{password}"></label>
                             </div>
 
-                            <div class="wrap-input100 validate-input m-b-16" data-validate = "Password confirmation is required">
-                                <input class="input100" type="password"   name="passwordConfirmation"
-                                       th:placeholder="#{registration.field.password.confirmation}" required th:title="#{registration.password.confirmation.error}">
+                            <div class="wrap-input100 validate-input m-b-16"
+                                 data-validate="Password confirmation is required">
+                                <input class="input100" type="password" name="passwordConfirmation"
+                                       th:placeholder="#{registration.field.password.confirmation}" required
+                                       th:title="#{registration.password.confirmation.error}">
                                 <span class="focus-input100"></span>
-                                <label class="text-danger-form" th:if="${confirmationError}" th:text="#{registration.password.confirmation.error}"></label>
+                                <label class="text-danger-form" th:if="${confirmationError}"
+                                       th:text="#{registration.password.confirmation.error}"></label>
                             </div>
 
-                            <div class="wrap-input100 validate-input m-b-16" data-validate = "Phone number is required">
-                                <input class="input100" type="text" th:filed="*{phone}"  name="phone"
+                            <div class="wrap-input100 validate-input m-b-16" data-validate="Phone number is required">
+                                <input class="input100" type="text" th:filed="*{phone}" name="phone"
                                        pattern="^[0-9]{10}$"
-                                       th:placeholder="#{registration.field.phone}" required th:title="#{registration.phone.error}">
+                                       th:placeholder="#{registration.field.phone}" required
+                                       th:title="#{registration.phone.error}">
                                 <span class="focus-input100"></span>
-                                <label class="text-danger-form" th:if="${#fields.hasErrors('phone')}" th:errors="*{phone}"></label>
+                                <label class="text-danger-form" th:if="${#fields.hasErrors('phone')}"
+                                       th:errors="*{phone}"></label>
                             </div>
 
                             <div class="container-login100-form-btn m-t-17">
@@ -107,7 +122,6 @@
         </div>
     </div>
 </section>
-
 
 
 <!-- Footer -->
@@ -144,7 +158,6 @@
         </div>
     </div>
 </footer>
-
 
 
 <!-- Bootstrap core JavaScript -->

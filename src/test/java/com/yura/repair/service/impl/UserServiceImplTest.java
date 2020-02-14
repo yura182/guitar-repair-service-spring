@@ -114,7 +114,8 @@ public class UserServiceImplTest {
 
     @Test
     public void findAllShouldReturnEmptyPage() {
-        Page<UserDto> expected = Page.empty();;
+        Page<UserDto> expected = Page.empty();
+        ;
         Page<UserEntity> userEntities = Page.empty();
         Pageable pageable = PageRequest.of(1, 1);
 
