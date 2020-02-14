@@ -6,7 +6,6 @@ import com.yura.repair.exception.AlreadyRegisteredUserException;
 import com.yura.repair.repository.UserRepository;
 import com.yura.repair.service.UserService;
 import com.yura.repair.service.mapper.EntityMapper;
-import com.yura.repair.service.mapper.UserMapper;
 import lombok.AllArgsConstructor;
 import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;

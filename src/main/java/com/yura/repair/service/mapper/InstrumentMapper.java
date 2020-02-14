@@ -8,6 +8,7 @@ import java.util.Objects;
 
 @Component
 public class InstrumentMapper implements EntityMapper<InstrumentEntity, InstrumentDto> {
+
     @Override
     public InstrumentDto mapEntityToDto(InstrumentEntity entity) {
         return Objects.isNull(entity) ? null : InstrumentDto.builder()

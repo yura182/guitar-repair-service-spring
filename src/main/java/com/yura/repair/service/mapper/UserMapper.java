@@ -8,6 +8,7 @@ import java.util.Objects;
 
 @Component
 public class UserMapper implements EntityMapper<UserEntity, UserDto> {
+
     @Override
     public UserDto mapEntityToDto(UserEntity entity) {
         return Objects.isNull(entity) ? null : UserDto.builder()

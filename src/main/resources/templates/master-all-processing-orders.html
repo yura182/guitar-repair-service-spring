@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
@@ -49,7 +49,7 @@
                     <th><span class="profile-header" th:text="#{user.orders.table.instrument.brand}"></span></th>
                     <th><span class="profile-header" th:text="#{user.orders.table.service}"></span></th>
                     <th><span class="profile-header" th:text="#{user.orders.table.status}"></span></th>
-                    <th><span class="profile-header" ></span></th>
+                    <th><span class="profile-header"></span></th>
                     </thead>
                     <tbody>
 
@@ -61,7 +61,8 @@
                         <td th:text="${order.getService()}"></td>
                         <td th:text="#{${order.getStatus().getLocaleDescription()}}"></td>
                         <td>
-                            <a class="details-link" th:href="@{/master/order/{orderId}(orderId = ${order.getId()})}" th:text="#{user.orders.details}"></a>
+                            <a class="details-link" th:href="@{/master/order/{orderId}(orderId = ${order.getId()})}"
+                               th:text="#{user.orders.details}"></a>
                     </tr>
                     </tbody>
                 </table>

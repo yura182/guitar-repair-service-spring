@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 
 <head>
 
@@ -17,7 +17,8 @@
     <link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
     <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
-    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet'
+          type='text/css'>
     <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
 
     <!-- Custom styles for this template -->
@@ -43,7 +44,7 @@
                 <table class="table table-striped profile">
                     <tbody>
                     <tr>
-                        <td ><span class="profile-header" th:text="#{profile.name}"></span> </td>
+                        <td><span class="profile-header" th:text="#{profile.name}"></span></td>
                         <td th:text="${userDto.getName()}"></td>
                     </tr>
                     <tr>
@@ -70,7 +71,6 @@
         </div>
     </div>
 </section>
-
 
 
 <!-- Footer -->
@@ -107,7 +107,6 @@
         </div>
     </div>
 </footer>
-
 
 
 <!-- Bootstrap core JavaScript -->
