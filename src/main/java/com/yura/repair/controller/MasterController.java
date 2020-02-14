@@ -24,10 +24,18 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.validation.constraints.NotNull;
 import java.util.Objects;
 
+import static com.yura.repair.constant.AttributeName.*;
+import static com.yura.repair.constant.PageUrl.*;
+
 @Log4j
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 @Controller
 public class MasterController {
+    private static final String PROCESS_SUCCESS_MESSAGE = "process.success";
+    private static final String PROCESS_ERROR_MESSAGE = "process.error";
+    private static final String COMPLETE_SUCCESS_MESSAGE = "complete.success";
+
+
     private final OrderService orderService;
 
     @GetMapping("/master/available-orders")
@@ -36,8 +44,8 @@ public class MasterController {
 
         Page<OrderDto> orders = orderService.findByStatus(Status.ACCEPTED, pageable);
 
-        modelAndView.setViewName("master-all-orders");
-        modelAndView.addObject("page", orders);
+        modelAndView.setViewName(MASTER_ALL_ORDERS_PAGE);
+        modelAndView.addObject(ATTR_NAME_PAGE, orders);
 
         return modelAndView;
     }
@@ -50,13 +58,13 @@ public class MasterController {
         OrderDto orderDto = orderService.findById(orderId);
 
         if (checkAccessToOrder(loggedMaster, orderDto)) {
-            modelAndView.setViewName("404");
+            modelAndView.setViewName(ERROR_PAGE);
 
             return modelAndView;
         }
 
-        modelAndView.addObject("order", orderDto);
-        modelAndView.setViewName("master-order-details");
+        modelAndView.addObject(ATTR_NAME_ORDER, orderDto);
+        modelAndView.setViewName(MASTER_ORDER_DETAILS_PAGE);
 
         return modelAndView;
     }
@@ -68,12 +76,12 @@ public class MasterController {
 
         try {
             orderService.processOrder(orderId, master);
-            modelAndView.setViewName("redirect:/master/order/" + orderId);
-            redirectAttributes.addFlashAttribute("successMessage", "process.success");
+            modelAndView.setViewName(REDIRECT + MASTER_ORDER_PATH + orderId);
+            redirectAttributes.addFlashAttribute(ATTR_NAME_SUCCESS, PROCESS_SUCCESS_MESSAGE);
         } catch (OrderAlreadyUpdatedException e) {
             log.warn("Order's already processed by another master", e);
-            modelAndView.setViewName("redirect:/master/available-orders");
-            redirectAttributes.addFlashAttribute("errorMessage", "process.error");
+            modelAndView.setViewName(REDIRECT + MASTER_AVAILABLE_ORDERS_PATH);
+            redirectAttributes.addFlashAttribute(ATTR_NAME_ERROR, PROCESS_ERROR_MESSAGE);
         }
 
         return modelAndView;
@@ -85,8 +93,8 @@ public class MasterController {
 
         orderService.completeOrder(orderId);
 
-        modelAndView.setViewName("redirect:/master/order/" + orderId);
-        redirectAttributes.addFlashAttribute("successMessage", "complete.success");
+        modelAndView.setViewName(REDIRECT + MASTER_ORDER_PATH + orderId);
+        redirectAttributes.addFlashAttribute(ATTR_NAME_SUCCESS, COMPLETE_SUCCESS_MESSAGE);
 
         return modelAndView;
     }
@@ -97,8 +105,8 @@ public class MasterController {
 
         Page<OrderDto> orders = orderService.findByMaster(loggedMaster.getId(), pageable);
 
-        modelAndView.setViewName("master-all-processing-orders");
-        modelAndView.addObject("page", orders);
+        modelAndView.setViewName(MASTER_ALL_PROCESSING_ORDERS_PAGE);
+        modelAndView.addObject(ATTR_NAME_PAGE, orders);
 
         return modelAndView;
     }

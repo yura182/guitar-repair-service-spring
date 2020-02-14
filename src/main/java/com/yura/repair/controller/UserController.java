@@ -30,6 +30,10 @@ import static com.yura.repair.constant.PageUrl.*;
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 @Controller
 public class UserController {
+    public static final String MESSAGE_REGISTER_ERROR = "register.error";
+    public static final String MESSAGE_JUST_REGISTERED = "login.just.registered";
+    public static final String MESSAGE_LOGIN_ERROR = "login.error";
+
     private final UserService userService;
     private final ReviewService reviewService;
 
@@ -67,7 +71,7 @@ public class UserController {
                                  ModelAndView modelAndView, RedirectAttributes redirectAttributes) {
 
         if (bindingResult.hasErrors()) {
-            modelAndView.addObject(ATTR_NAME_ERROR_MESSAGE, "register.error");
+            modelAndView.addObject(ATTR_NAME_ERROR, MESSAGE_REGISTER_ERROR);
             modelAndView.setViewName(REGISTER_PAGE);
 
             return modelAndView;
@@ -83,7 +87,7 @@ public class UserController {
         userDto.setRole(Role.CLIENT);
         userService.register(userDto);
 
-        redirectAttributes.addFlashAttribute(ATTR_NAME_SUCCESS_MESSAGE, "login.just.registered");
+        redirectAttributes.addFlashAttribute(ATTR_NAME_SUCCESS, MESSAGE_JUST_REGISTERED);
         modelAndView.setViewName(REDIRECT + LOGIN_PAGE);
 
         return modelAndView;
@@ -91,7 +95,7 @@ public class UserController {
 
     @GetMapping("/login-error")
     public ModelAndView loginError(ModelAndView modelAndView, RedirectAttributes redirectAttributes) {
-        redirectAttributes.addFlashAttribute("errorMessage", "login.error");
+        redirectAttributes.addFlashAttribute(ATTR_NAME_ERROR, MESSAGE_LOGIN_ERROR);
         modelAndView.setViewName(REDIRECT + LOGIN_PAGE);
 
         return modelAndView;
@@ -111,7 +115,7 @@ public class UserController {
 
         Page<ReviewDto> reviews = reviewService.findAll(pageable);
         modelAndView.setViewName(REVIEWS_PAGE);
-        modelAndView.addObject(ATTR_NAME_REVIEWS, reviews);
+        modelAndView.addObject(ATTR_NAME_PAGE, reviews);
 
         return modelAndView;
     }
