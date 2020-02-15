@@ -4,6 +4,7 @@ import com.yura.repair.dto.OrderDto;
 import com.yura.repair.dto.UserDto;
 import com.yura.repair.entity.OrderEntity;
 import com.yura.repair.entity.Status;
+import com.yura.repair.entity.UserEntity;
 import com.yura.repair.exception.OrderAlreadyUpdatedException;
 import com.yura.repair.repository.OrderRepository;
 import com.yura.repair.service.OrderService;
@@ -16,12 +17,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityNotFoundException;
+import java.util.Objects;
 
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 @Service
 public class OrderServiceImpl implements OrderService {
     private final OrderRepository orderRepository;
     private final EntityMapper<OrderEntity, OrderDto> orderMapper;
+    private final EntityMapper<UserEntity, UserDto> userMapper;
 
     @Override
     public void add(OrderDto orderDto) {
@@ -30,10 +33,7 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public OrderDto findById(Integer id) {
-        return orderRepository
-                .findById(id)
-                .map(orderMapper::mapEntityToDto)
-                .orElseThrow(() -> new EntityNotFoundException("Order not found"));
+        return orderMapper.mapEntityToDto(getOrderById(id));
     }
 
     @Override
@@ -67,46 +67,63 @@ public class OrderServiceImpl implements OrderService {
     @Override
     @Transactional
     public void acceptOrder(Integer orderId, Double price) {
-        OrderDto orderDto = findById(orderId);
+        OrderEntity orderEntity = getOrderById(orderId);
 
-        orderDto.setPrice(price);
-        orderDto.setStatus(Status.ACCEPTED);
+        orderEntity.setPrice(price);
+        orderEntity.setStatus(Status.ACCEPTED);
 
-        orderRepository.save(orderMapper.mapDtoToEntity(orderDto));
+        orderRepository.save(orderEntity);
     }
 
     @Override
     @Transactional
     public void rejectOrder(Integer orderId, String rejectionReason) {
-        OrderDto orderDto = findById(orderId);
+        OrderEntity orderEntity = getOrderById(orderId);
 
-        orderDto.setStatus(Status.REJECTED);
-        orderDto.setRejectionReason(rejectionReason);
+        orderEntity.setStatus(Status.REJECTED);
+        orderEntity.setRejectionReason(rejectionReason);
 
-        orderRepository.save(orderMapper.mapDtoToEntity(orderDto));
+        orderRepository.save(orderEntity);
     }
 
     @Override
     @Transactional
     public void processOrder(Integer orderId, UserDto master) {
-        OrderDto orderDto = findById(orderId);
+        OrderEntity orderEntity = getOrderById(orderId);
 
-        if (orderDto.getStatus() == Status.PROCESSING) {
+        if (orderEntity.getStatus() != Status.ACCEPTED) {
             throw new OrderAlreadyUpdatedException("Order's already processed by another master");
         }
 
-        orderDto.setStatus(Status.PROCESSING);
-        orderDto.setMaster(master);
+        orderEntity.setStatus(Status.PROCESSING);
+        orderEntity.setMaster(userMapper.mapDtoToEntity(master));
 
-        orderRepository.save(orderMapper.mapDtoToEntity(orderDto));
+        orderRepository.save(orderEntity);
     }
 
     @Override
     @Transactional
     public void completeOrder(Integer orderId) {
-        OrderDto orderDto = findById(orderId);
+        OrderEntity orderEntity = getOrderById(orderId);
 
-        orderDto.setStatus(Status.COMPLETED);
-        orderRepository.save(orderMapper.mapDtoToEntity(orderDto));
+        orderEntity.setStatus(Status.COMPLETED);
+
+        orderRepository.save(orderEntity);
+    }
+
+    @Override
+    public boolean isNotUserOrder(UserDto userDto, OrderDto orderDto) {
+        return !orderDto.getClient().getId().equals(userDto.getId());
+    }
+
+    @Override
+    public boolean isNotMasterOrder(UserDto masterDto, OrderDto orderDto) {
+        return Objects.nonNull(orderDto.getMaster()) && !orderDto.getMaster().getId().equals(masterDto.getId());
+    }
+
+    private OrderEntity getOrderById(Integer orderId) {
+        return orderRepository
+                .findById(orderId)
+                .orElseThrow(() -> new EntityNotFoundException("Order not found"));
     }
 }

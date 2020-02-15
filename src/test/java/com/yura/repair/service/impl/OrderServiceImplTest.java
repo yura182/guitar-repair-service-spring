@@ -7,6 +7,7 @@ import com.yura.repair.entity.InstrumentEntity;
 import com.yura.repair.entity.OrderEntity;
 import com.yura.repair.entity.Status;
 import com.yura.repair.entity.UserEntity;
+import com.yura.repair.exception.OrderAlreadyUpdatedException;
 import com.yura.repair.repository.OrderRepository;
 import com.yura.repair.service.mapper.EntityMapper;
 import org.junit.After;
@@ -48,12 +49,15 @@ public class OrderServiceImplTest {
     @MockBean
     private EntityMapper<OrderEntity, OrderDto> orderMapper;
 
+    @MockBean
+    private EntityMapper<UserEntity, UserDto> userMapper;
+
     @Autowired
     private OrderServiceImpl orderService;
 
     @After
     public void resetMocks() {
-        reset(orderRepository, orderMapper);
+        reset(orderRepository, orderMapper, userMapper);
     }
 
     @Test
@@ -79,6 +83,7 @@ public class OrderServiceImplTest {
     public void findByIdShouldThrowUOrderNotFoundException() {
         exception.expect(EntityNotFoundException.class);
         exception.expectMessage("Order not found");
+
         when(orderRepository.findById(anyInt())).thenReturn(Optional.empty());
 
         orderService.findById(1);
@@ -202,8 +207,6 @@ public class OrderServiceImplTest {
     @Test
     public void acceptOrderShouldUpdateOrder() {
         when(orderRepository.findById(anyInt())).thenReturn(Optional.of(ORDER_ENTITY));
-        when(orderMapper.mapEntityToDto(ORDER_ENTITY)).thenReturn(ORDER_DTO);
-        when(orderMapper.mapDtoToEntity(any(OrderDto.class))).thenReturn(ORDER_ENTITY);
 
         orderService.acceptOrder(1, 1.1);
 
@@ -213,27 +216,43 @@ public class OrderServiceImplTest {
     @Test
     public void rejectOrderShouldUpdateOrder() {
         when(orderRepository.findById(anyInt())).thenReturn(Optional.of(ORDER_ENTITY));
-        when(orderMapper.mapEntityToDto(ORDER_ENTITY)).thenReturn(ORDER_DTO);
-        when(orderMapper.mapDtoToEntity(any(OrderDto.class))).thenReturn(ORDER_ENTITY);
+
         orderService.rejectOrder(1, "reason");
+
         verify(orderRepository).save(any(OrderEntity.class));
     }
 
     @Test
     public void processOrderShouldUpdateOrder() {
-        when(orderRepository.findById(anyInt())).thenReturn(Optional.of(ORDER_ENTITY));
-        when(orderMapper.mapEntityToDto(ORDER_ENTITY)).thenReturn(ORDER_DTO);
-        when(orderMapper.mapDtoToEntity(any(OrderDto.class))).thenReturn(ORDER_ENTITY);
+        OrderEntity orderEntity = getOrderEntity();
+        orderEntity.setStatus(Status.ACCEPTED);
+
+        when(orderRepository.findById(anyInt())).thenReturn(Optional.of(orderEntity));
+
         orderService.processOrder(1, UserDto.builder().build());
+
         verify(orderRepository).save(any(OrderEntity.class));
+    }
+
+    @Test
+    public void processOrderShouldThrowOrderAlreadyUpdatedException() {
+        exception.expect(OrderAlreadyUpdatedException.class);
+        exception.expectMessage("Order's already processed by another master");
+
+        OrderEntity orderEntity = getOrderEntity();
+        orderEntity.setStatus(Status.PROCESSING);
+
+        when(orderRepository.findById(anyInt())).thenReturn(Optional.of(orderEntity));
+
+        orderService.processOrder(1, UserDto.builder().build());
     }
 
     @Test
     public void completeOrderShouldUpdateOrder() {
         when(orderRepository.findById(anyInt())).thenReturn(Optional.of(ORDER_ENTITY));
-        when(orderMapper.mapEntityToDto(ORDER_ENTITY)).thenReturn(ORDER_DTO);
-        when(orderMapper.mapDtoToEntity(any(OrderDto.class))).thenReturn(ORDER_ENTITY);
+
         orderService.completeOrder(1);
+
         verify(orderRepository).save(any(OrderEntity.class));
     }
 

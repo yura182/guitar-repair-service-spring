@@ -22,7 +22,6 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.constraints.NotNull;
-import java.util.Objects;
 
 import static com.yura.repair.constant.AttributeName.*;
 import static com.yura.repair.constant.PageUrl.*;
@@ -34,11 +33,12 @@ public class MasterController {
     private static final String PROCESS_SUCCESS_MESSAGE = "process.success";
     private static final String PROCESS_ERROR_MESSAGE = "process.error";
     private static final String COMPLETE_SUCCESS_MESSAGE = "complete.success";
+    private static final String MASTER_PATH = "/master/";
 
 
     private final OrderService orderService;
 
-    @GetMapping("/master/available-orders")
+    @GetMapping(MASTER_PATH + "available-orders")
     public ModelAndView allOrders(@PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
                                   ModelAndView modelAndView) {
 
@@ -50,14 +50,14 @@ public class MasterController {
         return modelAndView;
     }
 
-    @GetMapping("/master/order/{orderId}")
+    @GetMapping(MASTER_PATH + "order/{orderId}")
     public ModelAndView masterOrderDetails(@PathVariable("orderId") Integer orderId,
                                            @AuthenticationPrincipal UserDto loggedMaster,
                                            ModelAndView modelAndView) {
 
         OrderDto orderDto = orderService.findById(orderId);
 
-        if (checkAccessToOrder(loggedMaster, orderDto)) {
+        if (orderService.isNotMasterOrder(loggedMaster, orderDto)) {
             modelAndView.setViewName(ERROR_PAGE);
 
             return modelAndView;
@@ -69,7 +69,7 @@ public class MasterController {
         return modelAndView;
     }
 
-    @PostMapping("/master/process-order")
+    @PostMapping(MASTER_PATH + "process-order")
     public ModelAndView processOrder(@RequestParam(name = "orderId") @NotNull Integer orderId,
                                      @AuthenticationPrincipal UserDto master,
                                      ModelAndView modelAndView, RedirectAttributes redirectAttributes) {
@@ -87,7 +87,7 @@ public class MasterController {
         return modelAndView;
     }
 
-    @PostMapping("/master/complete-order")
+    @PostMapping(MASTER_PATH + "complete-order")
     public ModelAndView completeOrder(@RequestParam(name = "orderId") @NotNull Integer orderId,
                                       ModelAndView modelAndView, RedirectAttributes redirectAttributes) {
 
@@ -99,7 +99,7 @@ public class MasterController {
         return modelAndView;
     }
 
-    @GetMapping("/master/orders")
+    @GetMapping(MASTER_PATH + "orders")
     public ModelAndView processingOrders(@PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
                                          @AuthenticationPrincipal UserDto loggedMaster, ModelAndView modelAndView) {
 
@@ -111,7 +111,5 @@ public class MasterController {
         return modelAndView;
     }
 
-    private boolean checkAccessToOrder(UserDto loggedMaster, OrderDto orderDto) {
-        return Objects.nonNull(orderDto.getMaster()) && !orderDto.getMaster().getId().equals(loggedMaster.getId());
-    }
+
 }

@@ -1,6 +1,5 @@
 package com.yura.repair.controller;
 
-import com.yura.repair.configuration.LoginSuccessHandler;
 import com.yura.repair.dto.UserDto;
 import com.yura.repair.entity.Role;
 import com.yura.repair.service.ReviewService;
@@ -14,6 +13,8 @@ import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
+import static com.yura.repair.constant.AttributeName.*;
+import static com.yura.repair.constant.PageUrl.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -31,30 +32,27 @@ public class UserControllerTest {
     @MockBean
     private ReviewService reviewService;
 
-    @MockBean
-    private LoginSuccessHandler loginSuccessHandler;
-
     @Autowired
     private MockMvc mvc;
 
     @Test
     public void mainShouldReturnIndexPage() throws Exception {
         mvc.perform(get("/"))
-                .andExpect(view().name("index"));
+                .andExpect(view().name(INDEX_PAGE));
     }
 
     @Test
     @WithMockUser
     public void loginShouldRedirectLoggedUser() throws Exception {
         mvc.perform(get("/login"))
-                .andExpect(view().name("redirect:/"));
+                .andExpect(view().name(REDIRECT_HOME_PAGE));
     }
 
     @Test
     public void registerShouldReturnRegisterPage() throws Exception {
         mvc.perform(get("/register"))
-                .andExpect(view().name("register"))
-                .andExpect(model().attributeExists("userDto"));
+                .andExpect(view().name(REGISTER_PAGE))
+                .andExpect(model().attributeExists(ATTR_NAME_USER));
     }
 
     @Test
