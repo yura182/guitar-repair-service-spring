@@ -63,6 +63,7 @@ public class UserServiceImplTest {
         when(userMapper.mapDtoToEntity(USER_DTO)).thenReturn(USER_ENTITY);
 
         userService.register(USER_DTO);
+
         verify(userRepository).save(USER_ENTITY);
     }
 

@@ -73,7 +73,7 @@ public class ClientController {
     }
 
     @GetMapping(CLIENT_PATH + "add-order")
-    public ModelAndView register(ModelAndView modelAndView) {
+    public ModelAndView saveOrder(ModelAndView modelAndView) {
         modelAndView.addObject(ATTR_NAME_INSTRUMENT, new InstrumentDto());
         modelAndView.addObject(ATTR_NAME_ORDER, new OrderDto());
         modelAndView.setViewName(CLIENT_ADD_ORDER_PAGE);

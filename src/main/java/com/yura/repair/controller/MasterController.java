@@ -110,6 +110,4 @@ public class MasterController {
 
         return modelAndView;
     }
-
-
 }

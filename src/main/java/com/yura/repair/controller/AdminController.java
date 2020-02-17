@@ -88,7 +88,7 @@ public class AdminController {
 
 
     @PostMapping(ADMIN_PATH + "reject-order")
-    public ModelAndView acceptOrder(@RequestParam(name = "orderId") @NotNull Integer orderId,
+    public ModelAndView rejectOrder(@RequestParam(name = "orderId") @NotNull Integer orderId,
                                     @RequestParam(name = "rejectionReason") @NotBlank String rejectionReason,
                                     ModelAndView modelAndView, RedirectAttributes redirectAttributes) {
 
