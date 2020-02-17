@@ -29,7 +29,7 @@ import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.Optional;
 
-import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.*;
@@ -37,7 +37,7 @@ import static org.mockito.Mockito.*;
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = OrderServiceImpl.class)
 public class OrderServiceImplTest {
-    private static final OrderDto ORDER_DTO = getOrderDtoDto();
+    private static final OrderDto ORDER_DTO = getOrderDto();
     private static final OrderEntity ORDER_ENTITY = getOrderEntity();
 
     @Rule
@@ -256,7 +256,39 @@ public class OrderServiceImplTest {
         verify(orderRepository).save(any(OrderEntity.class));
     }
 
-    private static OrderDto getOrderDtoDto() {
+    @Test
+    public void isNotUserOrderShouldReturnFalse() {
+        boolean actual = orderService.isNotUserOrder(UserDto.builder().id(1).build(), ORDER_DTO);
+        assertFalse(actual);
+    }
+
+    @Test
+    public void isNotUserOrderShouldReturnTrue() {
+        boolean actual = orderService.isNotUserOrder(UserDto.builder().id(3).build(), ORDER_DTO);
+        assertTrue(actual);
+    }
+
+    @Test
+    public void isNotMasterOrderShouldReturnFalse() {
+        boolean actual = orderService.isNotMasterOrder(UserDto.builder().id(2).build(), ORDER_DTO);
+        assertFalse(actual);
+    }
+
+    @Test
+    public void isNotMasterOrderShouldReturnTrue() {
+        boolean actual = orderService.isNotMasterOrder(UserDto.builder().id(7).build(), ORDER_DTO);
+        assertTrue(actual);
+    }
+
+    @Test
+    public void isNotMasterOrderShouldReturnFalseForNull() {
+        OrderDto orderDto = getOrderDto();
+        orderDto.setMaster(null);
+        boolean actual = orderService.isNotMasterOrder(UserDto.builder().id(7).build(), orderDto);
+        assertFalse(actual);
+    }
+
+    private static OrderDto getOrderDto() {
         return OrderDto.builder()
                 .instrumentDto(InstrumentDto.builder()
                         .brand("Cort")
@@ -266,9 +298,13 @@ public class OrderServiceImplTest {
                 .status(Status.NEW)
                 .dateTime(LocalDateTime.of(1990, 12, 12, 12, 12))
                 .client(UserDto.builder()
+                        .id(1)
                         .name("Yura")
                         .build())
                 .service("Service")
+                .master(UserDto.builder()
+                        .id(2)
+                        .build())
                 .build();
     }
 
