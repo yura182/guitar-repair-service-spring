@@ -42,6 +42,7 @@ MASTER top@gmail.com - 12345678
 CLIENT neil@gmail.com - 12345678
 ```
 ## Tests coverage
-
+![image](http://i.piccy.info/i9/27034e108c847143c0e2e7331e7908f2/1581960642/49007/1360567/tests.jpg
+)
 ## Main Page
 ![image](http://i.piccy.info/i9/94945f3b7a6579486aad3bbc2a7ee99b/1580829639/53445/1360567/guitar.jpg)

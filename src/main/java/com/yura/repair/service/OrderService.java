@@ -27,4 +27,8 @@ public interface OrderService {
     void processOrder(Integer orderId, UserDto master);
 
     void completeOrder(Integer orderId);
+
+    boolean isNotUserOrder(UserDto userDto, OrderDto orderDto);
+
+    boolean isNotMasterOrder(UserDto masterDto, OrderDto orderDto);
 }

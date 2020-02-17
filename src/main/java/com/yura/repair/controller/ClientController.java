@@ -37,11 +37,12 @@ public class ClientController {
     private static final String ORDER_ERROR_MESSAGE = "order.error";
     private static final String ORDER_SUCCESS_MESSAGE = "order.success";
     private static final String ADD_REVIEW_SUCCESS_MESSAGE = "user.order.details.review.success";
+    private static final String CLIENT_PATH = "/client/";
 
     private final OrderService orderService;
     private final ReviewService reviewService;
 
-    @GetMapping("/client/orders")
+    @GetMapping(CLIENT_PATH + "orders")
     public ModelAndView userOrders(@PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
                                    @AuthenticationPrincipal UserDto clientDto, ModelAndView modelAndView) {
 
@@ -53,14 +54,16 @@ public class ClientController {
         return modelAndView;
     }
 
-    @GetMapping("/client/order/{orderId}")
+    @GetMapping(CLIENT_PATH + "order/{orderId}")
     public ModelAndView orderDetails(@PathVariable("orderId") Integer orderId,
                                      @AuthenticationPrincipal UserDto loggedUser, ModelAndView modelAndView) {
 
         OrderDto orderDto = orderService.findById(orderId);
 
-        if (!orderDto.getClient().getId().equals(loggedUser.getId())) {
+        if (orderService.isNotUserOrder(loggedUser, orderDto)) {
             modelAndView.setViewName(ERROR_PAGE);
+
+            return modelAndView;
         }
 
         modelAndView.addObject(ATTR_NAME_ORDER, orderDto);
@@ -69,8 +72,8 @@ public class ClientController {
         return modelAndView;
     }
 
-    @GetMapping("/client/add-order")
-    public ModelAndView register(ModelAndView modelAndView) {
+    @GetMapping(CLIENT_PATH + "add-order")
+    public ModelAndView saveOrder(ModelAndView modelAndView) {
         modelAndView.addObject(ATTR_NAME_INSTRUMENT, new InstrumentDto());
         modelAndView.addObject(ATTR_NAME_ORDER, new OrderDto());
         modelAndView.setViewName(CLIENT_ADD_ORDER_PAGE);
@@ -78,7 +81,7 @@ public class ClientController {
         return modelAndView;
     }
 
-    @PostMapping("/client/add-order")
+    @PostMapping(CLIENT_PATH + "add-order")
     public ModelAndView saveOrder(@Valid InstrumentDto instrumentDto, BindingResult instrumentResult,
                                   @Valid OrderDto orderDto, BindingResult orderResult,
                                   @AuthenticationPrincipal UserDto client,
@@ -103,7 +106,7 @@ public class ClientController {
         return modelAndView;
     }
 
-    @PostMapping("client/leave-review")
+    @PostMapping(CLIENT_PATH + "leave-review")
     public ModelAndView leaveReview(@RequestParam(name = "orderId") @NotNull Integer orderId,
                                     @RequestParam(name = "text") @NotBlank String text,
                                     @AuthenticationPrincipal UserDto client,

@@ -88,7 +88,13 @@
                 <version>${jacoco}</version>
                 <configuration>
                     <excludes>
-                        <!--                    TODO-->
+                        <exclude>com/yura/repair/configuration/*</exclude>
+                        <exclude>com/yura/repair/constant/*</exclude>
+                        <exclude>com/yura/repair/entity/*</exclude>
+                        <exclude>com/yura/repair/dto/*</exclude>
+                        <exclude>com/yura/repair/exception/*</exclude>
+                        <exclude>com/yura/repair/repository/**/*</exclude>
+                        <exclude>**/*RepairServiceApplication.*</exclude>
                     </excludes>
                 </configuration>
                 <executions>

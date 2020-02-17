@@ -32,12 +32,13 @@ public class AdminController {
     private static final String ACCEPT_SUCCESS_MESSAGE = "accept.success";
     private static final String REJECT_SUCCESS_MESSAGE = "reject.success";
     private static final String DELETE_SUCCESS_MESSAGE = "all.reviews.delete.success";
+    private static final String ADMIN_PATH = "/admin/";
 
     private final UserService userService;
     private final OrderService orderService;
     private final ReviewService reviewService;
 
-    @GetMapping("/admin/users")
+    @GetMapping(ADMIN_PATH + "users")
     public ModelAndView allUsers(@PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
                                  ModelAndView modelAndView) {
 
@@ -49,7 +50,7 @@ public class AdminController {
         return modelAndView;
     }
 
-    @GetMapping("/admin/orders")
+    @GetMapping(ADMIN_PATH + "orders")
     public ModelAndView allOrders(@PageableDefault(size = 5, sort = "id", direction = Sort.Direction.DESC) Pageable pageable,
                                   ModelAndView modelAndView) {
 
@@ -62,7 +63,7 @@ public class AdminController {
 
     }
 
-    @GetMapping("/admin/order/{orderId}")
+    @GetMapping(ADMIN_PATH + "order/{orderId}")
     public ModelAndView adminOrderDetails(@PathVariable("orderId") Integer orderId, ModelAndView modelAndView) {
         OrderDto orderDto = orderService.findById(orderId);
 
@@ -72,7 +73,7 @@ public class AdminController {
         return modelAndView;
     }
 
-    @PostMapping("/admin/accept-order")
+    @PostMapping(ADMIN_PATH + "accept-order")
     public ModelAndView acceptOrder(@RequestParam(name = "price") @NotNull Double price,
                                     @RequestParam(name = "orderId") @NotNull Integer orderId,
                                     ModelAndView modelAndView, RedirectAttributes redirectAttributes) {
@@ -86,8 +87,8 @@ public class AdminController {
     }
 
 
-    @PostMapping("/admin/reject-order")
-    public ModelAndView acceptOrder(@RequestParam(name = "orderId") @NotNull Integer orderId,
+    @PostMapping(ADMIN_PATH + "reject-order")
+    public ModelAndView rejectOrder(@RequestParam(name = "orderId") @NotNull Integer orderId,
                                     @RequestParam(name = "rejectionReason") @NotBlank String rejectionReason,
                                     ModelAndView modelAndView, RedirectAttributes redirectAttributes) {
 
@@ -99,7 +100,7 @@ public class AdminController {
         return modelAndView;
     }
 
-    @PostMapping("admin/delete-review")
+    @PostMapping(ADMIN_PATH + "delete-review")
     public ModelAndView deleteReview(@RequestParam(name = "reviewId") @NotNull Integer reviewId,
                                      ModelAndView modelAndView, RedirectAttributes redirectAttributes) {
         reviewService.delete(ReviewDto.builder().id(reviewId).build());

@@ -14,10 +14,9 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
 @Configuration
 @EnableWebSecurity
-@AllArgsConstructor(onConstructor = @_(@Autowired))
+@AllArgsConstructor(onConstructor = @__(@Autowired))
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
     private final UserService userService;
-    private LoginSuccessHandler loginSuccessHandler;
     private final BCryptPasswordEncoder encoder;
 
     @Override
@@ -33,7 +32,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .antMatchers("/master/**").hasAnyAuthority("MASTER")
                 .antMatchers("/client/**").hasAuthority("CLIENT").anyRequest()
                 .authenticated().and().csrf().disable().formLogin()
-                .loginPage("/login").failureUrl("/login-error").successHandler(loginSuccessHandler).permitAll()
+                .loginPage("/login").failureUrl("/login-error").permitAll()
                 .usernameParameter("email")
                 .passwordParameter("password")
                 .and().logout()
