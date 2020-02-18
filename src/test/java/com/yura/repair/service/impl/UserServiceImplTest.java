@@ -51,11 +51,6 @@ public class UserServiceImplTest {
     @Autowired
     private UserServiceImpl userService;
 
-    @After
-    public void resetMocks() {
-        reset(userRepository, userMapper, encoder);
-    }
-
     @Test
     public void registerShouldRegisterUser() {
         when(userRepository.findByEmail(USER_DTO.getEmail())).thenReturn(Optional.empty());

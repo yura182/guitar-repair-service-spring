@@ -69,6 +69,10 @@ public class OrderServiceImpl implements OrderService {
     public void acceptOrder(Integer orderId, Double price) {
         OrderEntity orderEntity = getOrderById(orderId);
 
+        if (orderEntity.getStatus() != Status.NEW) {
+            throw new OrderAlreadyUpdatedException("Order already accepted");
+        }
+
         orderEntity.setPrice(price);
         orderEntity.setStatus(Status.ACCEPTED);
 
@@ -79,6 +83,10 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public void rejectOrder(Integer orderId, String rejectionReason) {
         OrderEntity orderEntity = getOrderById(orderId);
+
+        if (orderEntity.getStatus() != Status.NEW) {
+            throw new OrderAlreadyUpdatedException("Order already rejected");
+        }
 
         orderEntity.setStatus(Status.REJECTED);
         orderEntity.setRejectionReason(rejectionReason);
@@ -92,7 +100,7 @@ public class OrderServiceImpl implements OrderService {
         OrderEntity orderEntity = getOrderById(orderId);
 
         if (orderEntity.getStatus() != Status.ACCEPTED) {
-            throw new OrderAlreadyUpdatedException("Order's already processed by another master");
+            throw new OrderAlreadyUpdatedException("Order already processed by another master");
         }
 
         orderEntity.setStatus(Status.PROCESSING);
@@ -105,6 +113,10 @@ public class OrderServiceImpl implements OrderService {
     @Transactional
     public void completeOrder(Integer orderId) {
         OrderEntity orderEntity = getOrderById(orderId);
+
+        if (orderEntity.getStatus() != Status.PROCESSING) {
+            throw new OrderAlreadyUpdatedException("Order already completed");
+        }
 
         orderEntity.setStatus(Status.COMPLETED);
 

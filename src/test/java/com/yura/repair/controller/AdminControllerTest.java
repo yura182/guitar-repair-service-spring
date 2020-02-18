@@ -57,10 +57,6 @@ public class AdminControllerTest {
     @Autowired
     private AdminController adminController;
 
-    @After
-    public void resetMocks() {
-        reset(orderService, pageable, userDto, orderDto, redirectAttributes, reviewService);
-    }
 
     @Test
     public void allUsersShouldReturnUsersPage() {

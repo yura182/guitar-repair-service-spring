@@ -55,11 +55,6 @@ public class OrderServiceImplTest {
     @Autowired
     private OrderServiceImpl orderService;
 
-    @After
-    public void resetMocks() {
-        reset(orderRepository, orderMapper, userMapper);
-    }
-
     @Test
     public void addShouldAddOrder() {
         when(orderMapper.mapDtoToEntity(ORDER_DTO)).thenReturn(ORDER_ENTITY);
@@ -206,7 +201,8 @@ public class OrderServiceImplTest {
 
     @Test
     public void acceptOrderShouldUpdateOrder() {
-        when(orderRepository.findById(anyInt())).thenReturn(Optional.of(ORDER_ENTITY));
+        OrderEntity orderEntity = OrderEntity.builder().status(Status.NEW).build();
+        when(orderRepository.findById(anyInt())).thenReturn(Optional.of(orderEntity));
 
         orderService.acceptOrder(1, 1.1);
 
@@ -237,7 +233,7 @@ public class OrderServiceImplTest {
     @Test
     public void processOrderShouldThrowOrderAlreadyUpdatedException() {
         exception.expect(OrderAlreadyUpdatedException.class);
-        exception.expectMessage("Order's already processed by another master");
+        exception.expectMessage("Order already processed by another master");
 
         OrderEntity orderEntity = getOrderEntity();
         orderEntity.setStatus(Status.PROCESSING);
@@ -249,7 +245,8 @@ public class OrderServiceImplTest {
 
     @Test
     public void completeOrderShouldUpdateOrder() {
-        when(orderRepository.findById(anyInt())).thenReturn(Optional.of(ORDER_ENTITY));
+        OrderEntity orderEntity = OrderEntity.builder().status(Status.PROCESSING).build();
+        when(orderRepository.findById(anyInt())).thenReturn(Optional.of(orderEntity));
 
         orderService.completeOrder(1);
 
