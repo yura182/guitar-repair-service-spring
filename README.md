@@ -16,7 +16,7 @@ The user can leave feedback on completed order.
 Пользователь может оставить Отзыв о выполненных работах. 
 ```
 ## Installation and running
-**Prerequisites**
+**Requirements**
 ```
 JDK 1.8
 Apache Tomcat
