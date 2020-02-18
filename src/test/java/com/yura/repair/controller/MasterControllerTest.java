@@ -51,11 +51,6 @@ public class MasterControllerTest {
     @Autowired
     private MasterController masterController;
 
-    @After
-    public void resetMocks() {
-        reset(orderService, pageable, userDto, orderDto, redirectAttributes);
-    }
-
     @Test
     public void allOrdersShouldReturnOrders() {
         Page<OrderDto> page = new PageImpl<>(Collections.singletonList(orderDto));

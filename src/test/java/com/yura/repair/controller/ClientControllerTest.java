@@ -60,11 +60,6 @@ public class ClientControllerTest {
     @Autowired
     private ClientController clientController;
 
-    @After
-    public void resetMocks() {
-        reset(orderService, pageable, userDto, orderDto, redirectAttributes, reviewService);
-    }
-
     @Test
     public void userOrdersShouldReturnOrders() {
         Page<OrderDto> page = new PageImpl<>(Collections.singletonList(orderDto));
