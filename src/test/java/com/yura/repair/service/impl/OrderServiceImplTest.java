@@ -10,7 +10,6 @@ import com.yura.repair.entity.UserEntity;
 import com.yura.repair.exception.OrderAlreadyUpdatedException;
 import com.yura.repair.repository.OrderRepository;
 import com.yura.repair.service.mapper.EntityMapper;
-import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -32,7 +31,8 @@ import java.util.Optional;
 import static org.junit.Assert.*;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 
 @RunWith(SpringRunner.class)
 @ContextConfiguration(classes = OrderServiceImpl.class)

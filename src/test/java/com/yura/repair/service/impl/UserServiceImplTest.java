@@ -6,7 +6,6 @@ import com.yura.repair.entity.UserEntity;
 import com.yura.repair.exception.AlreadyRegisteredUserException;
 import com.yura.repair.repository.UserRepository;
 import com.yura.repair.service.mapper.EntityMapper;
-import org.junit.After;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;

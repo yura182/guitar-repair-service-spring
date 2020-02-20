@@ -6,13 +6,11 @@ import com.yura.repair.repository.ReviewRepository;
 import com.yura.repair.service.ReviewService;
 import com.yura.repair.service.mapper.EntityMapper;
 import lombok.AllArgsConstructor;
-import lombok.extern.log4j.Log4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-@Log4j
 @AllArgsConstructor(onConstructor = @__(@Autowired))
 @Service
 public class ReviewServiceImpl implements ReviewService {
