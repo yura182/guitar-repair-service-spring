@@ -5,7 +5,6 @@ import com.yura.repair.dto.UserDto;
 import com.yura.repair.entity.Status;
 import com.yura.repair.exception.OrderAlreadyUpdatedException;
 import com.yura.repair.service.OrderService;
-import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;

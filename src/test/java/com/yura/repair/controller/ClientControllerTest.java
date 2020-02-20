@@ -6,7 +6,6 @@ import com.yura.repair.dto.ReviewDto;
 import com.yura.repair.dto.UserDto;
 import com.yura.repair.service.OrderService;
 import com.yura.repair.service.ReviewService;
-import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
