@@ -31,6 +31,8 @@ Clone project to your local repository
 Run scripts from /resources/db/ folder to create database and tables (dbCreation.sql) 
 and to insert data (dbInsertion.sql)
 
+Update DB login and password in /resources/application.properties
+
 From project root folder run - mvn spring-boot:run
 
 Use http://localhost:8088/ to view website
