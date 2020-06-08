@@ -1,6 +1,28 @@
 # Guitar repair service
 
-http://guitar-repair.us-east-2.elasticbeanstalk.com/
+## Installation and running using Docker
+**Requirements**
+```
+JDK 1.8
+Apache Tomcat
+Apache Maven
+Docker
+```
+**Running the project**
+```
+Clone project to your local repository
+From project root folder run - "docker build -t guitar-service . "
+Run - "docker run -dp 3308:3306 --rm --name guitar-service -e MYSQL_ROOT_PASSWORD=123456 guitar-service"
+From project root folder run - "mvn spring-boot:run"
+
+Use http://localhost:8088/ to view website
+
+To stop springboot app use CTRL+C
+To stop and delete mysql container run - "docker stop guitar-service"
+```
+
+
+Live preview http://ec2-3-133-119-217.us-east-2.compute.amazonaws.com:8080
 
 Option №3  
 ```
