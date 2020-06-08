@@ -18,6 +18,7 @@
 --
 -- Dumping data for table `instruments`
 --
+USE `repair_service`;
 
 LOCK TABLES `instruments` WRITE;
 /*!40000 ALTER TABLE `instruments` DISABLE KEYS */;
