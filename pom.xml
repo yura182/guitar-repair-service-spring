@@ -9,6 +9,7 @@
     <version>1.0-SNAPSHOT</version>
     <name>Repair Service</name>
     <description>Guitar repair service project</description>
+    <packaging>war</packaging>
 
     <parent>
         <groupId>org.springframework.boot</groupId>
