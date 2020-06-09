@@ -1,6 +1,24 @@
 # Guitar repair service
 
-http://guitar-repair.us-east-2.elasticbeanstalk.com/
+## Installation and running using Docker
+**Requirements**
+```
+Docker
+Docker-compose(If you on mac or windows, docker-compose already installed)
+```
+**Running the project**
+```
+Clone project to your local repository
+From project root folder run - "docker-compose build"
+Run - "docker-compose up"
+
+Use http://localhost:8080/ to view website
+
+To stop and delete containers run - "docker-compose down"
+If you wanted to delete all images run - "docker rmi -f $(docker images -q)"
+```
+
+Live preview http://ec2-3-133-119-217.us-east-2.compute.amazonaws.com:8080
 
 Option №3  
 ```
