@@ -1,6 +1,6 @@
 # Guitar repair service
 
-http://guitar-repair.us-east-2.elasticbeanstalk.com/
+Live preview http://ec2-3-133-119-217.us-east-2.compute.amazonaws.com:8080
 
 Option №3  
 ```
