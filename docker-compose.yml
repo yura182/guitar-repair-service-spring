@@ -11,9 +11,8 @@ services:
       - ./src/main/resources/db/:/docker-entrypoint-initdb.d
 
   tomcat:
-    build: .
+    image: yura182/guitar-tomcat
     container_name: tomcat
     restart: always
     ports:
       - "8080:8080"
-    image: yura182/guitar-tomcat
