@@ -88,7 +88,7 @@ public class UserController {
         userService.register(userDto);
 
         redirectAttributes.addFlashAttribute(ATTR_NAME_SUCCESS, MESSAGE_JUST_REGISTERED);
-        modelAndView.setViewName(REDIRECT + LOGIN_PAGE);
+        modelAndView.setViewName(REDIRECT + INDEX_PAGE);
 
         return modelAndView;
     }
