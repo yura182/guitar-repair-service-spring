@@ -1,4 +1,5 @@
-CREATE DATABASE  IF NOT EXISTS `repair_service` /*!40100 DEFAULT CHARACTER SET utf8 */;
+CREATE DATABASE  IF NOT EXISTS `repair_service` CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 USE `repair_service`;
 -- MySQL dump 10.13  Distrib 5.7.29, for Linux (x86_64)
 --
