@@ -2,7 +2,7 @@ package com.yura.repair.constant;
 
 public class PageUrl {
 
-    public static final String INDEX_PAGE = "index";
+    public static final String INDEX_PAGE = "index1";
     public static final String LOGIN_PAGE = "login";
     public static final String REDIRECT = "redirect:/";
     public static final String REGISTER_PAGE = "register";
