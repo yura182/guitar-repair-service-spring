@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="Yriy Petrashenko">
+
+    <title th:text="#{main.title}"></title>
+
+    <!-- Bootstrap core CSS -->
+    <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet">
+
+    <!-- Custom fonts for this template -->
+    <link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
+    <link href="https://fonts.googleapis.com/css?family=Montserrat:400,700" rel="stylesheet" type="text/css">
+    <link href='https://fonts.googleapis.com/css?family=Kaushan+Script' rel='stylesheet' type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Droid+Serif:400,700,400italic,700italic' rel='stylesheet'
+          type='text/css'>
+    <link href='https://fonts.googleapis.com/css?family=Roboto+Slab:400,100,300,700' rel='stylesheet' type='text/css'>
+
+    <!-- Custom styles for this template -->
+    <link th:href="@{/css/agency.css}" rel="stylesheet">
+    <link rel="shortcut icon" th:href="@{/img/favicon.ico}" type="image/x-icon">
+    <link rel="icon" th:href="@{/img/favicon.ico}" type="image/x-icon">
+
+</head>
+
+<body id="page-top">
+
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark fixed-top" id="mainNav">
+    <div class="container">
+        <a class="navbar-brand js-scroll-trigger" href="#page-top">Guitar Service</a>
+        <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse"
+                data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false"
+                aria-label="Toggle navigation">
+            Menu
+            <i class="fas fa-bars"></i>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarResponsive">
+            <ul class="navbar-nav text-uppercase ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" href="#services" th:text="#{menu.services}">Services</a>
+                </li>
+                <li class="nav-item" sec:authorize="!isAuthenticated()">
+                    <a class="nav-link js-scroll-trigger" th:href="@{/login}" th:text="#{menu.login}"></a>
+                </li>
+                <li class="nav-item" sec:authorize="!isAuthenticated()">
+                    <a class="nav-link js-scroll-trigger" th:href="@{/register}" th:text="#{menu.register}"></a>
+                </li>
+                <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
+                    <a class="nav-link js-scroll-trigger" th:href="@{/admin/users(page=0, size=5)}"
+                       th:text="#{menu.all.users}"></a>
+                </li>
+                <li class="nav-item" sec:authorize="hasAuthority('CLIENT')">
+                    <a class="nav-link js-scroll-trigger" th:href="@{/client/add-order}" th:text="#{menu.order}"></a>
+                </li>
+                <li class="nav-item" sec:authorize="hasAuthority('CLIENT')">
+                    <a class="nav-link js-scroll-trigger" th:href="@{/client/orders(page=0, size=5)}"
+                       th:text="#{menu.user.orders}"></a>
+                </li>
+                <li class="nav-item" sec:authorize="hasAuthority('ADMIN')">
+                    <a class="nav-link js-scroll-trigger" th:href="@{/admin/orders(page=0, size=5)}"
+                       th:text="#{menu.all.orders}"></a>
+                </li>
+                <li class="nav-item" sec:authorize="hasAuthority('MASTER')">
+                    <a class="nav-link js-scroll-trigger" th:href="@{/master/available-orders(page=0, size=5)}"
+                       th:text="#{menu.master.available.orders}"></a>
+                </li>
+                <li class="nav-item" sec:authorize="hasAuthority('MASTER')">
+                    <a class="nav-link js-scroll-trigger" th:href="@{/master/orders(page=0, size=5)}"
+                       th:text="#{menu.master.processing.orders}"></a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link js-scroll-trigger" th:href="@{/reviews(page=0, size=4)}"
+                       th:text="#{menu.reviews}"></a>
+                </li>
+            </ul>
+
+            <ul class="navbar-nav text-uppercase ml-auto">
+
+                <li class="nav-item nav-lang">
+                    <a class="nav-link js-scroll-trigger small-lang-link" href="?lang=en">Eng</a>
+                </li>
+                <li class="nav-item nav-lang">
+                    <a class="nav-link js-scroll-trigger small-lang-link" href="?lang=ru">Ru</a>
+                </li>
+                <li class="nav-item nav-lang" sec:authorize="isAuthenticated()">
+                    <a class="nav-link js-scroll-trigger small-name-link" th:href="@{/profile}"
+                       th:text="${#authentication.name}"></a>
+                </li>
+                <li class="nav-item nav-lang" sec:authorize="isAuthenticated()">
+                    <a class="nav-link js-scroll-trigger small-name-link" th:href="@{/logout}"
+                       th:text="#{menu.logout}"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<!-- Header -->
+<header class="masthead">
+    <div class="container">
+        <div class="intro-text">
+            <div class="intro-lead-in" th:text="#{main.body.welcome}"></div>
+            <div class="intro-heading text-uppercase" th:text="#{main.body.since}">GUITAR SPECIALISTS SINCE 1995</div>
+            <a class="btn btn-primary btn-xl text-uppercase js-scroll-trigger" th:href="@{/client/add-order}"
+               th:text="#{main.body.make}">Make an order</a>
+        </div>
+    </div>
+</header>
+
+<!-- Services -->
+<section class="page-section" id="services">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2 class="section-heading text-uppercase" th:text="#{main.body.services}"></h2>
+                <h3 class="section-subheading text-muted" th:text="#{main.body.service.description}"></h3>
+            </div>
+        </div>
+        <div class="row text-center">
+            <div class="col-md-4">
+                <div>
+                    <img th:src="@{img/repairs.jpg}" class="rounded-circle" alt="repairs" width="200" height="200">
+                </div>
+                <h4 class="service-heading" th:text="#{main.services.repairs}">REPAIRS</h4>
+                <p class="text-muted" th:text="#{main.services.repairs.description}"></p>
+            </div>
+            <div class="col-md-4">
+                <div>
+                    <img th:src="@{img/finishing.jpg}" class="rounded-circle" alt="repairs" width="200" height="200">
+                </div>
+                <h4 class="service-heading" th:text="#{main.services.finishing}"></h4>
+                <p class="text-muted" th:text="#{main.services.finishing.description}"></p>
+            </div>
+            <div class="col-md-4">
+                <div>
+                    <img th:src="@{img/setup.jpg}" class="rounded-circle" alt="repairs" width="200" height="200">
+                </div>
+                <h4 class="service-heading" th:text="#{main.services.setup}"></h4>
+                <p class="text-muted" th:text="#{main.services.setup.description}">Setup includes personalizing all of
+                    the parameters of the instrument so it will sound and play its best for the player, cleaning and
+                    polishing the instrument, as well as a restring</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+<!-- Footer -->
+<footer class="bg-light footer">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-md-4">
+                <span class="copyright">Copyright &copy; Guitar Service 2020</span>
+            </div>
+            <div class="col-md-4">
+                <img th:src="@{/img/brands.jpg}">
+            </div>
+            <div class="col-md-4">
+                <ul class="list-inline quicklinks">
+
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+
+
+<!-- Bootstrap core JavaScript -->
+<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+
+<!-- Plugin JavaScript -->
+<script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
+
+<!-- Contact form JavaScript -->
+<script th:src="@{/js/jqBootstrapValidation.js}"></script>
+<script th:src="@{/js/contact_me.js}"></script>
+
+<!-- Custom scripts for this template -->
+<script th:src="@{/js/agency.min.js}"></script>
+
+</body>
+
+</html>
