@@ -9,8 +9,7 @@ Docker-compose(If you on mac or windows, docker-compose already installed)
 **Running the project**
 ```
 Clone project to your local repository
-From project root folder run - "docker-compose build"
-Run - "docker-compose up"
+From project root folder run - "docker-compose up"
 
 Use http://localhost:8080/ to view website
 
