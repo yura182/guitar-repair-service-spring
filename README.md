@@ -15,7 +15,7 @@ Run - "docker-compose up"
 Use http://localhost:8080/ to view website
 
 To stop and delete containers run - "docker-compose down"
-If you wanted to delete all images run - "docker rmi -f $(docker images -q)"
+If you want to delete all images run - "docker rmi -f $(docker images -q)"
 ```
 
 Live preview http://ec2-3-133-119-217.us-east-2.compute.amazonaws.com:8080
