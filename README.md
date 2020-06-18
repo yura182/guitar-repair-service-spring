@@ -1,6 +1,6 @@
 # Guitar repair service
 
-Live preview http://ec2-18-224-66-76.us-east-2.compute.amazonaws.com
+Live preview http://ec2-18-219-66-65.us-east-2.compute.amazonaws.com
 
 Gitlab repository with test and deploy pipeline https://gitlab.com/yura182/guitar-service
 
